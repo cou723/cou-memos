@@ -5,14 +5,14 @@ type Error = { error: string }
 const ERROR = { error: "failed" }
 
 export type MemoStruct = {
-    id: number;
+    id: string;
     text: string;
     created_at: string;
     updated_at: string;
 }
 
 export class Memo {
-    id: number;
+    id: string;
     text: string;
     created_at: Date;
     updated_at: Date;

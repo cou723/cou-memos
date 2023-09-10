@@ -2,6 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use std::fs;
 
+const DB_PATH = "memo.json";
+
 use serde::Serialize;
 #[derive(Serialize)]
 struct Memo {
@@ -32,12 +34,12 @@ fn add_memo(text: String) -> bool {
 }
 
 #[tauri::command]
-fn edit_memo(text: String, id: isize) -> bool {
+fn edit_memo(text: String, id: String) -> bool {
     return true;
 }
 
 #[tauri::command]
-fn delete_memo(id: isize) -> bool {
+fn delete_memo(id: String) -> bool {
     return true;
 }
 

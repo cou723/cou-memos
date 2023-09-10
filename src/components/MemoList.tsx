@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
-import { Memo, MemoDB } from "../lib/memo";
+import { Memo, MemoDB } from "@/lib/memo";
 import { MemoView } from "./MemoView";
 
-export const MemoList = () => {
+type Props = {
+    onEdit: (id: string) => void;
+    onDelete: (id: string) => void;
+}
+
+export const MemoList = ({ onEdit, onDelete }: Props) => {
     const [memos, setMemos] = useState<Memo[]>([]);
     useEffect(() => {
         (async () => {
@@ -18,7 +23,7 @@ export const MemoList = () => {
         <div>
             {memos.map((memo) => (
                 <div key={memo.id}>
-                    <MemoView>{memo.text}</MemoView>
+                    <MemoView memo={memo} onEdit={onEdit} onDelete={onDelete} />
                 </div>
             ))}
         </div>

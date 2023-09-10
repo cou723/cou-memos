@@ -1,9 +1,27 @@
-import React, { useCallback, useState } from "react"
-import { Button, Stack, Textarea } from 'react-daisyui'
-import { MemoDB } from "../lib/memo";
+import React, { useCallback, useEffect, useState } from "react"
+import { Button, Textarea } from 'react-daisyui'
+import { MemoDB } from "@/lib/memo";
 
-export const MemoInput = React.memo(() => {
+type Props = {
+    id?: number;
+}
+
+export const MemoInput = React.memo(({ id }: Props) => {
     const [text, setText] = useState("");
+
+    useEffect(() => {
+        if (id === undefined) return;
+        (async () => {
+            let getOneResult = await MemoDB.get(id);
+            if (getOneResult.text)
+                setText(getOneResult.text);
+            else {
+                console.log(getOneResult.error);
+                id = undefined;
+            }
+        })();
+    }, [id])
+
 
     const handleKeyDown = useCallback((event: { ctrlKey: any; key: string; }) => {
         if (event.ctrlKey && event.key === "Enter")
@@ -15,7 +33,10 @@ export const MemoInput = React.memo(() => {
     }, []);
 
     const onSave = useCallback(async () => {
-        MemoDB.add(text);
+        if (id === undefined)
+            MemoDB.add(text);
+        else
+            MemoDB.edit(text, id);
         setText("");
     }, [])
 
