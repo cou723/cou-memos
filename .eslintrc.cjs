@@ -7,6 +7,9 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:storybook/recommended",
+    "plugin:tailwindcss/recommended",
+    "prettier",
   ],
   overrides: [
     {
@@ -24,7 +27,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "react", "import"],
+  plugins: ["@typescript-eslint", "react", "import", "tailwindcss"],
   rules: {
     "import/order": [
       "error",
@@ -78,5 +81,13 @@ module.exports = {
     }],
 
     "sort-keys": ["error", "asc", { caseSensitive: true, natural: false }],
+
+    "tailwindcss/no-custom-classname": [
+      "warn",
+      {
+        config: "tailwind.config.cjs",
+      },
+    ],
+    "tailwindcss/classnames-order": "off",
   },
 };
