@@ -1,53 +1,65 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use std::fs;
 
-use serde::Serialize;
-#[derive(Serialize)]
-struct Memo {
-    id: isize,
-    text: String,
-    created_at: String,
-    updated_at: String,
-}
+use tauri_app::establish_connection;
+use tauri_app::Memo;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn get_file_text(path: String) -> String {
-    println!("get_file_text");
-    match fs::read_to_string(path.clone()) {
-        Ok(text) => text,
-        Err(_) => format!("file:{} not found", path),
+fn get_file_text(id: i32) -> Result<String, ()> {
+    println!("get_file_memo");
+
+    let connection = establish_connection();
+    match tauri_app::get_memo(&connection, id) {
+        Ok(v) => Ok(v.text),
+        Err(_) => Err(()),
     }
 }
 
 #[tauri::command]
 fn add_memo(text: String) -> bool {
     println!("add_memo");
-    let path = "memo.txt";
-    match fs::write(path, text) {
+
+    let connection = establish_connection();
+    match tauri_app::create_memo(&connection, &text) {
         Ok(_) => true,
         Err(_) => false,
     }
 }
 
 #[tauri::command]
-fn edit_memo(_text: String, _id: String) -> bool {
-    return true;
+fn edit_memo(text: String, id: i32) -> bool {
+    println!("add_memo");
+
+    let connection = establish_connection();
+    match tauri_app::update_memo(&connection, id, &text) {
+        Ok(_) => true,
+        Err(_) => false,
+    }
 }
 
 #[tauri::command]
-fn delete_memo(_id: String) -> bool {
-    return true;
+fn delete_memo(id: i32) -> bool {
+    println!("delete_memo");
+
+    let connection = establish_connection();
+    match tauri_app::delete_memo(&connection, id) {
+        Ok(_) => true,
+        Err(_) => false,
+    }
 }
 
 #[tauri::command]
-fn get_memo() -> String {
-    return String::from("memo");
+fn get_memo(id: i32) -> Result<Memo, ()> {
+    println!("get_memo");
+
+    let connection = establish_connection();
+    tauri_app::get_memo(&connection, id)
 }
 
 #[tauri::command]
 fn get_memo_list() -> Vec<Memo> {
+    println!("get_memo_list");
     let v = vec![Memo {
         id: 1,
         text: String::from("memo"),
