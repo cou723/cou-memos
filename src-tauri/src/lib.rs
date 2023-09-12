@@ -76,8 +76,6 @@ pub fn update_memo(conn: &SqliteConnection, id: i32, text: &str) -> Result<(), E
     }
 }
 
-
-
 pub fn get_memo(conn: &SqliteConnection, id: i32) -> Result<Memo, ()> {
     use crate::schema::memos::dsl::memos;
 

@@ -1,5 +1,3 @@
-# すべてのファイルとディレクトリを無視
-**
-
-# src/ディレクトリ内のすべてのファイルを除外
-!src/**
+src-tauri
+!.eslintrc.cjs
+node_modules
