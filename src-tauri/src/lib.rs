@@ -28,8 +28,7 @@ pub fn create_memo(conn: &SqliteConnection, title: &str) -> Result<(), Error> {
     let result = diesel::insert_into(memos::table)
         .values(&new_post)
         //SQLiteはget_result()は対応していないため、execute()
-        .execute(conn)
-        .expect("Error saving new post");
+        .execute(conn)?;
 
     if result == 0 {
         Err(Error::DatabaseError(

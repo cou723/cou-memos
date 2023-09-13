@@ -1,9 +1,9 @@
 import { invoke } from "@tauri-apps/api";
 
-import type { Result } from "./result";
+import { Ok, Err, Result } from "ts-results";
+import { api } from "./api";
 
-type Error = { error: string };
-const ERROR = { error: "failed" };
+const ERROR = Err(new Error("MemoDB Error"));
 
 export type MemoStruct = {
     id: number;
@@ -11,6 +11,20 @@ export type MemoStruct = {
     created_at: string;
     updated_at: string;
 };
+
+export function isMemoStruct(obj: any): obj is MemoStruct {
+    return (
+        typeof obj === "object" &&
+        "id" in obj &&
+        "text" in obj &&
+        "created_at" in obj &&
+        "updated_at" in obj &&
+        typeof obj.id === "number" &&
+        typeof obj.text === "string" &&
+        typeof obj.created_at === "string" &&
+        typeof obj.updated_at === "string"
+    );
+}
 
 export class Memo {
     id: number;
@@ -25,47 +39,35 @@ export class Memo {
         this.updated_at = new Date(memo.updated_at);
     }
 }
+export function isMemo(obj: any): obj is Memo {
+    return (
+        typeof obj === "object" &&
+        "id" in obj &&
+        "text" in obj &&
+        "created_at" in obj &&
+        "updated_at" in obj &&
+        typeof obj.id === "number" &&
+        typeof obj.text === "string" &&
+        obj.created_at instanceof Date &&
+        obj.updated_at instanceof Date
+    );
+}
 
 export class MemoDB {
-    static async add(text: string): Promise<Result<void, Error>> {
-        try {
-            return await invoke("add_memo", { text });
-        } catch {
-            return ERROR;
-        }
-    }
-
-    static async edit(text: string, id: number): Promise<Result<void, Error>> {
-        try {
-            return await invoke("edit_memo", { text, id });
-        } catch {
-            return ERROR;
-        }
+    static async post(text: string, id?: number): Promise<Result<void, Error>> {
+        if (id === undefined) return await api.add_memo(text);
+        return await api.edit_memo(text, id);
     }
 
     static async delete(id: number): Promise<Result<void, Error>> {
-        try {
-            return await invoke("delete_memo", { id });
-        } catch {
-            return ERROR;
-        }
+        return await api.delete_memo(id);
     }
 
-    static async get(id: number): Promise<Result<{ text: string }, Error>> {
-        try {
-            return { text: (await invoke("get_memo", { id })) as string };
-        } catch {
-            return { error: `Memo:(${id}) not found` };
-        }
+    static async get(id: number): Promise<Result<Memo, Error>> {
+        return await api.get_memo(id);
     }
 
-    static async getAll(): Promise<Result<{ memos: Memo[] }, Error>> {
-        try {
-            return {
-                memos: ((await invoke("get_memo_list")) as MemoStruct[]).map((m) => new Memo(m))
-            };
-        } catch {
-            return ERROR;
-        }
+    static async getAll(): Promise<Result<Memo[], Error>> {
+        return await api.get_memo_list();
     }
 }

@@ -17,35 +17,34 @@ fn get_file_text(id: i32) -> Result<String, ()> {
 }
 
 #[tauri::command]
-fn add_memo(text: String) -> bool {
+fn add_memo(text: String) -> Result<(), ()> {
     println!("add_memo");
 
     let connection = establish_connection();
     match tauri_app::create_memo(&connection, &text) {
-        Ok(_) => true,
-        Err(_) => false,
+        Ok(_) => Ok(()),
+        Err(_) => Err(()),
     }
 }
-
 #[tauri::command]
-fn edit_memo(text: String, id: i32) -> bool {
+fn edit_memo(text: String, id: i32) -> Result<(), ()> {
     println!("add_memo");
 
     let connection = establish_connection();
     match tauri_app::update_memo(&connection, id, &text) {
-        Ok(_) => true,
-        Err(_) => false,
+        Ok(_) => Ok(()),
+        Err(_) => Err(()),
     }
 }
 
 #[tauri::command]
-fn delete_memo(id: i32) -> bool {
+fn delete_memo(id: i32) -> Result<(), ()> {
     println!("delete_memo");
 
     let connection = establish_connection();
     match tauri_app::delete_memo(&connection, id) {
-        Ok(_) => true,
-        Err(_) => false,
+        Ok(_) => Ok(()),
+        Err(_) => Err(()),
     }
 }
 
@@ -58,25 +57,24 @@ fn get_memo(id: i32) -> Result<Memo, ()> {
 }
 
 #[tauri::command]
-fn get_memo_list() -> Vec<Memo> {
+fn get_memo_list() -> Result<Vec<Memo>, ()> {
     println!("get_memo_list");
-    let v = vec![Memo {
-        id: 1,
-        text: String::from("memo"),
-        created_at: String::from("2021-01-01"),
-        updated_at: String::from("2021-01-01"),
-    }];
-    return v;
+
+    let connection = establish_connection();
+    tauri_app::get_all(&connection)
 }
 
 fn main() {
+    println!("start");
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_file_text])
-        .invoke_handler(tauri::generate_handler![add_memo])
-        .invoke_handler(tauri::generate_handler![edit_memo])
-        .invoke_handler(tauri::generate_handler![delete_memo])
-        .invoke_handler(tauri::generate_handler![get_memo])
-        .invoke_handler(tauri::generate_handler![get_memo_list])
+        .invoke_handler(tauri::generate_handler![
+            get_file_text,
+            edit_memo,
+            delete_memo,
+            get_memo,
+            get_memo_list,
+            add_memo
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

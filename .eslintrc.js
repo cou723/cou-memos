@@ -27,8 +27,16 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "react", "import", "tailwindcss"],
+  plugins: [
+    "@typescript-eslint",
+    "react",
+    "import",
+    "tailwindcss",
+    "react-hooks",
+  ],
   rules: {
+    "@typescript-eslint/no-floating-promises": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "import/order": [
       "error",
       {
