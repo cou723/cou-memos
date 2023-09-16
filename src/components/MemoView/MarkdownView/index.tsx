@@ -1,6 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { PWithTag } from "./PWithTag";
 
 export const MarkdownView = React.memo(({ text }: { text: string }) => {
@@ -14,6 +15,7 @@ export const MarkdownView = React.memo(({ text }: { text: string }) => {
                             {...props}
                             children={String(children).replace(/\n$/, "")}
                             language={match[1]}
+                            style={atomDark}
                             PreTag="div"
                         />
                     ) : (
