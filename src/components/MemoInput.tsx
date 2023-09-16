@@ -49,7 +49,12 @@ export const MemoInput = React.memo(({ id }: Props) => {
 
     return (
         <div>
-            <Textarea className="block w-full" value={text} onChange={handleChange} onKeyDown={handleKeyDown} />
+            <Textarea
+                className="block w-full leading-none h-40"
+                value={text}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+            />
             <div className="flex justify-end">
                 <Button size="sm" className="mt-2" onClick={onSave}>
                     保存

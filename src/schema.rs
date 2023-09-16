@@ -27,4 +27,8 @@ diesel::table! {
 diesel::joinable!(memo_tags -> memos (memo_id));
 diesel::joinable!(memo_tags -> tags (tag_id));
 
-diesel::allow_tables_to_appear_in_same_query!(memo_tags, memos, tags,);
+diesel::allow_tables_to_appear_in_same_query!(
+    memo_tags,
+    memos,
+    tags,
+);

@@ -1,3 +1,96 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+    --color: #374151;
+    --title-color: #111827;
+    --bg-color: #F9FAFB;
+    --code-bg-color: #F3F4F6;
+    --code-color: #1F2937;
+    --code-border-color: #E5E7EB;
+}
+
+.memo *{
+    margin-bottom: 1rem;
+}
+
+/* titles */
+
+.memo h1, .memo h2, .memo h3, .memo h4, .memo h5, .memo h6{
+    color: var(--title-color);
+    font-weight: 700;
+}
+
+.memo h1{
+    font-size: 2rem;
+    line-height: 2.5rem;
+
+}
+
+.memo h2{
+    font-size: 1.5rem;
+    line-height: 2rem;
+
+}
+
+.memo h3{
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+
+}
+
+.memo h4{
+    font-size: 1rem;
+    line-height: 1.5rem;
+
+}
+
+.memo h5{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+
+}
+
+.memo h6{
+    font-size: 0.75rem;
+    line-height: 1rem;
+
+}
+
+/* paragraphs */
+
+.memo p , .memo ol, .memo li, .memo ul, .memo blockquote{
+    color: var(--color);
+    font-weight: 400;
+
+}
+
+.memo p{
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+.memo ol, .memo li, .memo ul, .memo blockquote{
+    line-height: 1.5rem;
+}
+
+.memo ul{
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.memo ol{
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.memo li{
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.memo blockquote{
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}

@@ -49,7 +49,10 @@ export class api {
             const result = await invoke("get_memo_list");
             if (typeof result === "object" && result instanceof Array && result.every(isMemoStruct))
                 return Ok(result.map((memo) => new Memo(memo)));
-            else return Err(new Error("get_memo_listからMemo[]以外の値が返されました"));
+            else
+                return Err(
+                    new Error(`get_memo_listからMemo[]以外の値が返されました :${JSON.stringify(result, null, 2)}`)
+                );
         } catch (e) {
             if (e instanceof Error) return Err(e);
             else return Err(new Error("Unknown error"));

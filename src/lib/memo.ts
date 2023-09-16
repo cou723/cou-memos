@@ -7,20 +7,21 @@ const ERROR = Err(new Error("MemoDB Error"));
 
 export type MemoStruct = {
     id: number;
-    text: string;
+    content: string;
     created_at: string;
     updated_at: string;
+    tags: string[];
 };
 
 export function isMemoStruct(obj: any): obj is MemoStruct {
     return (
         typeof obj === "object" &&
         "id" in obj &&
-        "text" in obj &&
+        "content" in obj &&
         "created_at" in obj &&
         "updated_at" in obj &&
         typeof obj.id === "number" &&
-        typeof obj.text === "string" &&
+        typeof obj.content === "string" &&
         typeof obj.created_at === "string" &&
         typeof obj.updated_at === "string"
     );
@@ -31,12 +32,14 @@ export class Memo {
     text: string;
     created_at: Date;
     updated_at: Date;
+    tags: string[] = [];
 
     constructor(memo: MemoStruct) {
         this.id = memo.id;
-        this.text = memo.text;
+        this.text = memo.content;
         this.created_at = new Date(memo.created_at);
         this.updated_at = new Date(memo.updated_at);
+        this.tags = memo.tags;
     }
 }
 export function isMemo(obj: any): obj is Memo {

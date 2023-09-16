@@ -1,3 +1,5 @@
 src-tauri
 !.eslintrc.cjs
 node_modules
+*.rs
+**/*.rs
