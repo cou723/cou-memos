@@ -40,9 +40,16 @@ export const MemoInput = React.memo(({ id }: Props) => {
         setText("");
     };
 
+    const insertIndent = useCallback(() => {}, []);
+
     const handleKeyDown = useCallback(
-        (event: { ctrlKey: any; key: string }) => {
+        (event: React.KeyboardEvent) => {
             if (event.ctrlKey && event.key === "Enter") onSave();
+            if (event.key === "Tab") {
+                event.preventDefault();
+                const start = event.target.selectionStart;
+                setText(text.slice(0, start) + "    " + text.slice(start));
+            }
         },
         [onSave]
     );
