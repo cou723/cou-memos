@@ -13,7 +13,7 @@ export const MemoList = ({ onEdit, onDelete, className }: Props) => {
         isLoading,
         isError,
         data: memos
-    } = useQuery<Memo[]>({
+    } = useQuery({
         queryKey: ["memos"],
         queryFn: async () => {
             let getAllResult = await MemoDB.getAll();

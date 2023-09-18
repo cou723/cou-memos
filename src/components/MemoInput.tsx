@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Textarea } from "react-daisyui";
-import { Memo, MemoDB } from "@/lib/memo";
+import { MemoDB } from "@/lib/memo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { insertIndent } from "@/lib/editor";
+import { NotificationStack } from "@/NotificationProvider";
 
 type Props = {
     id?: number;
@@ -10,11 +12,12 @@ type Props = {
 export const MemoInput = React.memo(({ id }: Props) => {
     const queryClient = useQueryClient();
     const [text, setText] = useState("");
+    const { dispatch } = useContext(NotificationStack);
 
     const mutation = useMutation<void, Error, { text: string; id: number | undefined }>(
-        // 'memo'というquery keyを持つデータを再取得します
         async ({ text, id }: { text: string; id: number | undefined }) => {
             const result = await MemoDB.post(text, id);
+            if (result.err) dispatch({ type: "push", value: { type: "error", message: "メモの保存に失敗しました" } });
         },
         {
             onSuccess: () => {
@@ -27,7 +30,11 @@ export const MemoInput = React.memo(({ id }: Props) => {
         if (id === undefined) return;
         (async () => {
             let getOneResult = await MemoDB.get(id);
-            setText(getOneResult.unwrap().text);
+            if (getOneResult.err) {
+                dispatch({ type: "push", value: { type: "error", message: "メモの取得に失敗しました" } });
+                return;
+            }
+            setText(getOneResult.val.text);
         })();
     }, [id]);
 
@@ -40,15 +47,12 @@ export const MemoInput = React.memo(({ id }: Props) => {
         setText("");
     };
 
-    const insertIndent = useCallback(() => {}, []);
-
     const handleKeyDown = useCallback(
         (event: React.KeyboardEvent) => {
             if (event.ctrlKey && event.key === "Enter") onSave();
             if (event.key === "Tab") {
                 event.preventDefault();
-                const start = event.target.selectionStart;
-                setText(text.slice(0, start) + "    " + text.slice(start));
+                insertIndent(text, setText, event);
             }
         },
         [onSave]

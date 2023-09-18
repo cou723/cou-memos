@@ -1,31 +1,31 @@
-import { useState } from "react";
-
-import { MemoInput } from "./components/MemoInput";
-import { MemoList } from "./components/MemoList";
-import { MemoDB } from "./lib/memo";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { IndexPage } from "./pages/IndexPage";
+import { ConfigPage } from "./pages/ConfigPage";
+import { Routes, Route } from "react-router-dom";
+import { useContext } from "react";
+import { NotificationStack } from "./NotificationProvider";
+import { Alert, Button, Toast } from "react-daisyui";
 
 function App() {
-    const [id, setId] = useState<number | undefined>(undefined);
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation<void, Error, { id: number }>(
-        async ({ id }: { id: number }) => {
-            const result = await MemoDB.delete(id);
-        },
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries(["memos"]);
-            }
-        }
-    );
-
-    const handleDelete = (delete_id: number) => mutation.mutate({ id: delete_id });
+    const { state, dispatch } = useContext(NotificationStack);
 
     return (
-        <div className="w-3/4 m-auto mt-10">
-            <MemoInput id={id} />
-            <MemoList className="mt-3" onEdit={(id) => setId(id)} onDelete={handleDelete} />
+        <div>
+            <Toast vertical="bottom" horizontal="end">
+                {state.map((notification, index) => (
+                    <Alert status={notification.type}>
+                        <div className={"w-full flex-row justify-between gap-2"}>
+                            <h3>{notification.message}</h3>
+                        </div>
+                        <Button color="ghost" onClick={() => dispatch({ type: "close", index })}>
+                            X
+                        </Button>
+                    </Alert>
+                ))}
+            </Toast>
+            <Routes>
+                <Route path="/" element={<IndexPage />} />
+                <Route path="/settings" element={<ConfigPage />} />
+            </Routes>
         </div>
     );
 }

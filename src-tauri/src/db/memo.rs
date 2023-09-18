@@ -1,14 +1,12 @@
 use crate::{
     models::{Memo, MemoTags, NewMemo},
     schema::{memo_tags, memos},
+    Error,
 };
 
 use diesel::prelude::*;
 
-use diesel::{
-    result::{DatabaseErrorKind, Error},
-    SqliteConnection,
-};
+use diesel::SqliteConnection;
 
 use crate::db;
 
@@ -19,9 +17,12 @@ pub fn add(conn: &SqliteConnection, title: &str, tags: Vec<&str>) -> Result<(), 
 
     let result = diesel::insert_into(memos::table)
         .values(&new_post)
-        .execute(conn)?;
+        .execute(conn)
+        .map_err(|_| Error::DbOperationFailed)?;
 
-    let id = diesel::select(last_insert_rowid).get_result::<i32>(conn)?;
+    let id = diesel::select(last_insert_rowid)
+        .get_result::<i32>(conn)
+        .map_err(|_| Error::DbOperationFailed)?;
 
     for tag in tags {
         let tag_id = super::tag::get(conn, tag)?;
@@ -29,10 +30,7 @@ pub fn add(conn: &SqliteConnection, title: &str, tags: Vec<&str>) -> Result<(), 
     }
 
     if result == 0 {
-        Err(Error::DatabaseError(
-            DatabaseErrorKind::UniqueViolation,
-            Box::new("".to_string()),
-        ))
+        Err(Error::DbOperationFailed)
     } else {
         Ok(())
     }
@@ -41,13 +39,16 @@ pub fn add(conn: &SqliteConnection, title: &str, tags: Vec<&str>) -> Result<(), 
 pub fn delete(conn: &SqliteConnection, id: i32) -> Result<(), Error> {
     let target_tags: Vec<MemoTags> = memo_tags::table
         .filter(memo_tags::memo_id.eq(id))
-        .load(conn)?;
+        .load(conn)
+        .map_err(|_| Error::DbOperationFailed)?;
 
     for memo_tag in target_tags {
-        memo_tag::delete(conn, memo_tag.memo_id)?;
+        memo_tag::delete(conn, memo_tag.memo_id).map_err(|_| Error::DbOperationFailed)?;
     }
 
-    diesel::delete(memos::table.filter(memos::id.eq(id))).execute(conn)?;
+    diesel::delete(memos::table.filter(memos::id.eq(id)))
+        .execute(conn)
+        .map_err(|_| Error::DbOperationFailed)?;
     Ok(())
 }
 
@@ -62,22 +63,22 @@ pub fn update(conn: &SqliteConnection, id: i32, text: &str, tags: Vec<&str>) -> 
     }
 
     if result == 0 {
-        Err(Error::DatabaseError(
-            DatabaseErrorKind::UniqueViolation,
-            Box::new("".to_string()),
-        ))
+        Err(Error::DbInvalidArgs)
     } else {
         Ok(())
     }
 }
 
-pub fn get(conn: &SqliteConnection, id: i32) -> Result<Memo, diesel::result::Error> {
-    memos::table.find(id).get_result(conn)
+pub fn get(conn: &SqliteConnection, id: i32) -> Result<Memo, Error> {
+    memos::table
+        .find(id)
+        .get_result(conn)
+        .map_err(|_e| Error::DbOperationFailed)
 }
 
-pub fn get_all_id(conn: &SqliteConnection) -> Result<Vec<i32>, ()> {
+pub fn get_all_id(conn: &SqliteConnection) -> Result<Vec<i32>, Error> {
     memos::table
         .select(memos::id)
         .load::<i32>(conn)
-        .map_err(|_e| ())
+        .map_err(|_| Error::DbOperationFailed)
 }

@@ -2,20 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles.css";
-import { ConfigProvider } from "@blackbox-vision/react-use-config";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./lib/queryClient";
+import { AppProvider } from "./AppProvider";
+import { listen } from "@tauri-apps/api/event";
+import { dialog } from "@tauri-apps/api";
 
-const config = {
-    output_path: "~/tauri-app"
-};
+async function showMessage(message: string): Promise<void> {
+    await dialog.message(message);
+}
+
+listen("message", (event) => {
+    console.log("listen message");
+    showMessage(event.payload as string);
+});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <ConfigProvider config={config} debug={true}>
-                <App />
-            </ConfigProvider>
-        </QueryClientProvider>
+        <AppProvider>
+            <App />
+        </AppProvider>
     </React.StrictMode>
 );

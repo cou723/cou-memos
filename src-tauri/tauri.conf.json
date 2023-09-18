@@ -12,6 +12,15 @@
   },
   "tauri": {
     "allowlist": {
+      "fs": {
+        "scope": [
+          "$APPDATA/databases/*"
+        ]
+      },
+      "window": {
+        "all": true,
+        "create": true
+      },
       "all": false,
       "shell": {
         "all": false,
