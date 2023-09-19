@@ -5,7 +5,7 @@ type Action = { type: "push"; value: Notification } | { type: "close"; index: nu
 type NotificationType = "info" | "success" | "warning" | "error";
 type Notification = {
     message: string;
-    type: "info" | "success" | "warning" | "error";
+    type: NotificationType;
 };
 
 const initialState: State = [];

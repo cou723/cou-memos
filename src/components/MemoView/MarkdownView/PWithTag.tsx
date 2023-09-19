@@ -1,5 +1,6 @@
 import React from "react";
 import { Tag } from "./Tag";
+import { splitTags } from "@/lib/extractTag";
 
 function isTag(text: string): boolean {
     return text.startsWith("#");
@@ -8,7 +9,7 @@ function isTag(text: string): boolean {
 export const PWithTag = React.memo(({ text }: { text: string }) => {
     const elements: JSX.Element[] = [];
 
-    const strings = text.split(" ");
+    const strings = splitTags(text);
 
     for (const string of strings) {
         if (isTag(string)) elements.push(<Tag text={string} />);

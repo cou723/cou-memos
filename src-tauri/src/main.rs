@@ -14,7 +14,9 @@ pub mod utils;
 use db::establish_connection;
 use entity::Memo;
 use serde::{Deserialize, Serialize};
-use tauri::{AppHandle, Manager};
+use tauri::AppHandle;
+
+use crate::utils::extract_tags;
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
@@ -71,7 +73,7 @@ fn get_file_text(app: AppHandle, id: i32) -> Result<String, Error> {
 fn add_memo(app: AppHandle, text: String) -> Result<(), Error> {
     println!("add_memo");
 
-    let tags = text.split(" ").filter(|x| x.starts_with("#")).collect();
+    let tags = extract_tags(&text);
 
     let connection = establish_connection(app)?;
     db::memo::add(&connection, &text, tags)
@@ -101,7 +103,7 @@ fn get_memo(app: tauri::AppHandle, id: i32) -> Result<Memo, Error> {
 
     let connection = establish_connection(app)?;
     let memo = db::memo::get(&connection, id)?;
-    let tags = db::tag::get_list(&connection, id)?;
+    let tags = db::tag::get_list(&connection, &id)?;
 
     Ok(Memo::from_models(memo, tags))
 }
@@ -112,10 +114,13 @@ fn get_memo_list(app: AppHandle) -> Result<Vec<Memo>, Error> {
     println!("get_memo_list");
 
     let connection = establish_connection(app.clone())?;
-    let all_memo_ids = db::memo::get_all_id(&connection)?;
+    let all_memo = db::memo::get_all(&connection)?;
 
-    for memo_id in all_memo_ids {
-        memos.push(get_memo(app.clone(), memo_id)?);
+    for memo in all_memo {
+        memos.push(Memo::from_models(
+            memo.clone(),
+            db::tag::get_list(&connection, &memo.id)?,
+        ));
     }
 
     Ok(memos)

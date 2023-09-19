@@ -6,7 +6,7 @@ use crate::schema::tags;
 use crate::Error;
 use diesel::prelude::*;
 
-pub fn get_list(conn: &SqliteConnection, memo_id: i32) -> Result<Vec<Tag>, Error> {
+pub fn get_list(conn: &SqliteConnection, memo_id: &i32) -> Result<Vec<Tag>, Error> {
     let memo_tags = memo_tags::table
         .filter(memo_tags::memo_id.eq(memo_id))
         .load::<models::MemoTags>(conn)

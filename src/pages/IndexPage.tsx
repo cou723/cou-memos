@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "react-daisyui";
 import { useNavigate } from "react-router-dom";
 import { HiAdjustments } from "react-icons/hi";
-import { NotificationStack } from "@/NotificationProvider";
+import { NotificationStack } from "@/providers/NotificationProvider";
 
 export const IndexPage = React.memo(() => {
     const [id, setId] = useState<number | undefined>(undefined);

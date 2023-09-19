@@ -24,7 +24,7 @@ export const MarkdownView = React.memo(({ text }: { text: string }) => {
                         </code>
                     );
                 },
-                p({ node, children, ...props }) {
+                p({ children }) {
                     return <PWithTag text={children.toString()} />;
                 }
             }}

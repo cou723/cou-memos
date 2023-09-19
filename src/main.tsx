@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles.css";
-import { AppProvider } from "./AppProvider";
+import { AppProvider } from "./providers/AppProvider";
 import { listen } from "@tauri-apps/api/event";
 import { dialog } from "@tauri-apps/api";
 

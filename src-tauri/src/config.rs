@@ -1,6 +1,6 @@
 use std::{
-    fs::{self, OpenOptions},
-    io::{Read, Write},
+    fs::{self},
+    io::{Write},
 };
 
 use crate::{Config, ConfigSetError, Error, CONFIG_FILE_PATH};

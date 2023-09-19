@@ -1,6 +1,5 @@
-import { Memo, MemoDB } from "@/lib/memo";
 import { MemoView } from "./MemoView";
-import { useQuery } from "@tanstack/react-query";
+import { useMemoList } from "@/hooks/useMemoList";
 
 type Props = {
     onEdit: (id: number) => void;
@@ -9,18 +8,7 @@ type Props = {
 };
 
 export const MemoList = ({ onEdit, onDelete, className }: Props) => {
-    const {
-        isLoading,
-        isError,
-        data: memos
-    } = useQuery({
-        queryKey: ["memos"],
-        queryFn: async () => {
-            let getAllResult = await MemoDB.getAll();
-            if (getAllResult.ok) return getAllResult.val.reverse();
-            else throw getAllResult.val;
-        }
-    });
+    const { isLoading, isError, data: memos } = useMemoList();
 
     return (
         <div>

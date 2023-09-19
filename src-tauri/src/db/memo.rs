@@ -12,7 +12,7 @@ use crate::db;
 
 use super::{last_insert_rowid, memo_tag};
 
-pub fn add(conn: &SqliteConnection, title: &str, tags: Vec<&str>) -> Result<(), Error> {
+pub fn add(conn: &SqliteConnection, title: &str, tags: Vec<String>) -> Result<(), Error> {
     let new_post = NewMemo { content: title };
 
     let result = diesel::insert_into(memos::table)
@@ -25,7 +25,7 @@ pub fn add(conn: &SqliteConnection, title: &str, tags: Vec<&str>) -> Result<(), 
         .map_err(|_| Error::DbOperationFailed)?;
 
     for tag in tags {
-        let tag_id = super::tag::get(conn, tag)?;
+        let tag_id = super::tag::get(conn, &tag)?;
         memo_tag::add(conn, id, tag_id)?;
     }
 
@@ -76,9 +76,8 @@ pub fn get(conn: &SqliteConnection, id: i32) -> Result<Memo, Error> {
         .map_err(|_e| Error::DbOperationFailed)
 }
 
-pub fn get_all_id(conn: &SqliteConnection) -> Result<Vec<i32>, Error> {
+pub fn get_all(conn: &SqliteConnection) -> Result<Vec<Memo>, Error> {
     memos::table
-        .select(memos::id)
-        .load::<i32>(conn)
+        .load::<Memo>(conn)
         .map_err(|_| Error::DbOperationFailed)
 }

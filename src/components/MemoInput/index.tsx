@@ -1,9 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext } from "react";
 import { Button, Textarea } from "react-daisyui";
-import { MemoDB } from "@/lib/memo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { insertIndent } from "@/lib/editor";
-import { NotificationStack } from "@/NotificationProvider";
+import { NotificationStack } from "@/providers/NotificationProvider";
+import { useMemoText } from "@/hooks/useMemoText";
+import { saveMemo } from "./saveMemo";
 
 type Props = {
     id?: number;
@@ -11,32 +12,15 @@ type Props = {
 
 export const MemoInput = React.memo(({ id }: Props) => {
     const queryClient = useQueryClient();
-    const [text, setText] = useState("");
+    const [text, setText] = useMemoText();
     const { dispatch } = useContext(NotificationStack);
 
     const mutation = useMutation<void, Error, { text: string; id: number | undefined }>(
-        async ({ text, id }: { text: string; id: number | undefined }) => {
-            const result = await MemoDB.post(text, id);
-            if (result.err) dispatch({ type: "push", value: { type: "error", message: "メモの保存に失敗しました" } });
-        },
+        async (params) => saveMemo(params, dispatch),
         {
-            onSuccess: () => {
-                queryClient.invalidateQueries(["memos"]);
-            }
+            onSuccess: () => queryClient.invalidateQueries(["memos"])
         }
     );
-
-    useEffect(() => {
-        if (id === undefined) return;
-        (async () => {
-            let getOneResult = await MemoDB.get(id);
-            if (getOneResult.err) {
-                dispatch({ type: "push", value: { type: "error", message: "メモの取得に失敗しました" } });
-                return;
-            }
-            setText(getOneResult.val.text);
-        })();
-    }, [id]);
 
     const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
         setText(event.target.value);
