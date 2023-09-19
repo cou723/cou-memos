@@ -1,9 +1,5 @@
-import { invoke } from "@tauri-apps/api";
-
-import { Ok, Err, Result } from "ts-results";
+import { Result } from "ts-results";
 import { api } from "./api";
-
-const ERROR = Err(new Error("MemoDB Error"));
 
 export type MemoStruct = {
     id: number;
