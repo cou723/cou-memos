@@ -1,9 +1,9 @@
 [package]
-name = "tauri-app"
-version = "0.0.0"
-description = "A Tauri App"
+name = "cous-memo"
+version = "0.0.1"
+description = "Memo app"
 authors = ["you"]
-license = ""
+license = "MIT"
 repository = ""
 edition = "2021"
 
@@ -13,7 +13,8 @@ edition = "2021"
 tauri-build = { version = "1.4", features = [] }
 
 [dependencies]
-tauri = { version = "1.4", features = [ "window-all",
+tauri = { version = "1.4", features = [
+    "window-all",
     "protocol-asset",
     "dialog-all",
     "shell-open",

@@ -395,6 +395,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "cous-memo"
+version = "0.0.1"
+dependencies = [
+ "diesel",
+ "diesel_migrations",
+ "dotenv",
+ "libsqlite3-sys",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+]
+
+[[package]]
 name = "cpufeatures"
 version = "0.2.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2725,20 +2739,6 @@ dependencies = [
  "webkit2gtk",
  "webview2-com",
  "windows 0.39.0",
-]
-
-[[package]]
-name = "tauri-app"
-version = "0.0.0"
-dependencies = [
- "diesel",
- "diesel_migrations",
- "dotenv",
- "libsqlite3-sys",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
 ]
 
 [[package]]
