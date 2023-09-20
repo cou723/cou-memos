@@ -36,7 +36,9 @@ export const MemoInput = React.memo(({ id }: Props) => {
             if (event.ctrlKey && event.key === "Enter") onSave();
             if (event.key === "Tab") {
                 event.preventDefault();
-                insertIndent(text, setText, event);
+                const result = insertIndent(text, setText, event);
+                if (result.err)
+                    dispatch({ type: "push", value: { type: "error", message: "インサートに失敗しました" } });
             }
         },
         [onSave]

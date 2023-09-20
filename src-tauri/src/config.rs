@@ -1,11 +1,12 @@
 use std::{
     fs::{self},
-    io::{Write},
+    io::Write,
 };
 
 use crate::{Config, ConfigSetError, Error, CONFIG_FILE_PATH};
 
 pub fn get_default_config_string() -> String {
+    // get_default_configからくるconfigは固定なので、unwrapしても問題ない
     serde_json::to_string(&get_default_config()).unwrap()
 }
 
@@ -19,14 +20,14 @@ fn to_config(string: String) -> Result<Config, Error> {
     serde_json::from_str(string.as_str()).map_err(|_| Error::ConfigJsonBroken)
 }
 
-fn to_string(config: &Config) -> String {
-    serde_json::to_string(&config).unwrap()
+fn to_string(config: &Config) -> Result<String, Error> {
+    serde_json::to_string(&config).map_err(|_| Error::ConfigJsonBroken)
 }
 
 fn save(config: &Config) -> Result<(), Error> {
     let mut config_file =
         fs::File::create(CONFIG_FILE_PATH).map_err(|_| Error::ConfigOpenFailed)?;
-    let text = to_string(config);
+    let text = to_string(config)?;
 
     config_file
         .write_all(text.as_bytes())

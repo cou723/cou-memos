@@ -5,17 +5,12 @@ export function insertIndent(
     text: string,
     setText: (value: React.SetStateAction<string>) => void,
     event: React.KeyboardEvent
-) {
-    const start = getStartLine(event).unwrap();
-    setText(text.slice(0, start) + "    " + text.slice(start));
-}
+): Result<null, Error> {
+    const start = getStartLine(event);
+    if (start.err) return start;
 
-export function isBeforeLineIndented(text: string, event: React.KeyboardEvent) {
-    const start = getStartLine(event).unwrap();
-    let before_line = text.slice(0, start).split("\n").pop();
-    if (before_line == undefined) return false;
-    console.log(before_line);
-    return before_line.startsWith("    ");
+    setText(text.slice(0, start.val) + "    " + text.slice(start.val));
+    return Ok(null);
 }
 
 function getStartLine(event: React.KeyboardEvent): Result<number, Error> {
