@@ -140,8 +140,8 @@ fn main() {
             set_config,
         ])
         .setup(|app| {
-            let window = app.get_window("main").unwrap();
-            window.open_devtools();
+            #[cfg(debug_assertions)]
+            app.get_window("main").unwrap().open_devtools();
             Ok(())
         })
         .run(tauri::generate_context!())
