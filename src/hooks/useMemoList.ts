@@ -20,8 +20,8 @@ export function useMemoList() {
     return useQuery({
         queryKey: ["memos"],
         queryFn: fetchMemos,
-        onError: (error) => {
-            dispatch({ type: "push", value: { type: "error", message: error.message } });
+        onError: (error: string) => {
+            dispatch({ type: "push", value: { type: "error", message: error } });
         }
     });
 }
