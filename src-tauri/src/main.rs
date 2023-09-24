@@ -128,7 +128,7 @@ fn get_memo_list(app: AppHandle) -> Result<Vec<Memo>, Error> {
 
 fn main() {
     println!("start");
-    tauri::Builder::default()
+    match tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_file_text,
             edit_memo,
@@ -145,5 +145,10 @@ fn main() {
             Ok(())
         })
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+    {
+        Ok(_) => {}
+        Err(e) => {
+            println!("error: {}", e);
+        }
+    }
 }

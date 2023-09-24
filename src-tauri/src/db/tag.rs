@@ -30,7 +30,7 @@ pub fn get(conn: &SqliteConnection, tag: &str) -> Result<i32, Error> {
     let results = tags::table
         .filter(tags::content.eq(tag))
         .load::<models::Tag>(conn)
-        .expect("Error loading posts");
+        .map_err(|_| Error::DbInvalidArgs)?;
 
     Ok(if results.len() == 0 {
         let new_post = NewTag { content: tag };

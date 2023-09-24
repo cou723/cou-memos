@@ -24,7 +24,7 @@ pub fn establish_connection(app: AppHandle) -> Result<SqliteConnection, Error> {
                 "data_path".to_string(),
                 config::get_default_config().data_path,
             ) {
-                show_message(get_window(app)?, "Error: Failed to set config");
+                show_message(get_window(&app)?, "Error: Failed to set config");
             }
             SqliteConnection::establish(&config::get_default_config().data_path)
                 .map_err(|_| Error::DbNotFound)?
@@ -35,6 +35,11 @@ pub fn establish_connection(app: AppHandle) -> Result<SqliteConnection, Error> {
             return Ok(conn);
         }
     }
-    run_pending_migrations(&conn).expect("Failed to run migrations");
+    match run_pending_migrations(&conn) {
+        Ok(_) => {}
+        Err(_) => {
+            show_message(get_window(app)?, "Error: Failed to migrate");
+        }
+    }
     Ok(conn)
 }

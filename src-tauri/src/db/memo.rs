@@ -56,7 +56,7 @@ pub fn update(conn: &SqliteConnection, id: i32, text: &str, tags: Vec<&str>) -> 
     let result = diesel::update(memos::table.find(id))
         .set(memos::content.eq(text))
         .execute(conn)
-        .expect("Error updating posts");
+        .map_err(|_| Error::DbInvalidArgs)?;
 
     for tag in tags {
         db::memo_tag::add(conn, id, db::tag::get(conn, tag)?)?;
