@@ -1,5 +1,5 @@
 import { MemoDB } from "@/lib/memo";
-import { NotificationStack } from "@/providers/NotificationProvider";
+import { NotificationStack, NotificationType } from "@/providers/NotificationProvider";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 
@@ -15,13 +15,28 @@ async function fetchMemos() {
     }
 }
 
+export const pushNotification = (message: string, type: NotificationType) => {
+    const { dispatch } = useContext(NotificationStack);
+    dispatch({ type: "push", notification: { type, message } });
+};
+
+export const pushErrorNotification = (message: string) => {
+    const { dispatch } = useContext(NotificationStack);
+    dispatch({ type: "push", notification: { type: "error", message } });
+};
+
+export const closeNotification = (index: number) => {
+    const { dispatch } = useContext(NotificationStack);
+    dispatch({ type: "close", index });
+};
+
 export function useMemoList() {
     const { dispatch } = useContext(NotificationStack);
     return useQuery({
         queryKey: ["memos"],
         queryFn: fetchMemos,
         onError: (error: string) => {
-            dispatch({ type: "push", value: { type: "error", message: error } });
+            dispatch({ type: "push", notification: { type: "error", message: error } });
         }
     });
 }

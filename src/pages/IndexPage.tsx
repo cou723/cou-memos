@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-
+import React, { useState } from "react";
 import { MemoInput } from "../components/MemoInput";
 import { MemoList } from "../components/MemoList";
 import { MemoDB } from "../lib/memo";
@@ -7,19 +6,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "react-daisyui";
 import { useNavigate } from "react-router-dom";
 import { HiAdjustments } from "react-icons/hi";
-import { NotificationStack } from "@/providers/NotificationProvider";
+import { pushErrorNotification } from "@/hooks/useMemoList";
 
 export const IndexPage = React.memo(() => {
     const [id, setId] = useState<number | undefined>(undefined);
     const queryClient = useQueryClient();
-    const { dispatch } = useContext(NotificationStack);
 
     const nav = useNavigate();
 
     const mutation = useMutation<void, Error, { id: number }>(
         async ({ id }: { id: number }) => {
             const result = await MemoDB.delete(id);
-            if (result.err) dispatch({ type: "push", value: { type: "error", message: "メモの削除に失敗しました" } });
+            if (result.err) pushErrorNotification("メモの削除に失敗しました");
         },
         {
             onSuccess: () => {

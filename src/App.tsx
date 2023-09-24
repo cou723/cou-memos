@@ -4,9 +4,10 @@ import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
 import { NotificationStack } from "./providers/NotificationProvider";
 import { Alert, Button, Toast } from "react-daisyui";
+import { closeNotification } from "./hooks/useMemoList";
 
 function App() {
-    const { state, dispatch } = useContext(NotificationStack);
+    const { state } = useContext(NotificationStack);
 
     return (
         <div>
@@ -16,7 +17,7 @@ function App() {
                         <div className={"w-full flex-row justify-between gap-2"}>
                             <h3>{notification.message}</h3>
                         </div>
-                        <Button color="ghost" onClick={() => dispatch({ type: "close", index })}>
+                        <Button color="ghost" onClick={() => closeNotification(index)}>
                             X
                         </Button>
                     </Alert>

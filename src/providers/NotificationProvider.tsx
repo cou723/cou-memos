@@ -1,9 +1,9 @@
 import React, { useReducer, createContext, Dispatch } from "react";
 
 type State = Notification[];
-type Action = { type: "push"; value: Notification } | { type: "close"; index: number };
-type NotificationType = "info" | "success" | "warning" | "error";
-type Notification = {
+type Action = { type: "push"; notification: Notification } | { type: "close"; index: number };
+export type NotificationType = "info" | "success" | "warning" | "error";
+export type Notification = {
     message: string;
     type: NotificationType;
 };
@@ -13,7 +13,7 @@ const initialState: State = [];
 function reducer(state: State, action: Action): State {
     switch (action.type) {
         case "push":
-            return [...state, action.value];
+            return [...state, action.notification];
         case "close":
             var _state = [...state];
             return _state.filter((_value, index) => index !== action.index);

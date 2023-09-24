@@ -1,6 +1,7 @@
+import { pushErrorNotification } from "@/hooks/useMemoList";
 import { MemoDB } from "@/lib/memo";
 
-export async function saveMemo({ text, id }: { text: string; id: number | undefined }, dispatch: React.Dispatch<any>) {
+export async function saveMemo({ text, id }: { text: string; id: number | undefined }) {
     const result = await MemoDB.post(text, id);
-    if (result.err) dispatch({ type: "push", value: { type: "error", message: "メモの保存に失敗しました" } });
+    if (result.err) pushErrorNotification("メモの保存に失敗しました");
 }

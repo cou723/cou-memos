@@ -1,10 +1,10 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback } from "react";
 import { Button, Textarea } from "react-daisyui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { insertIndent } from "@/lib/editor";
-import { NotificationStack } from "@/providers/NotificationProvider";
 import { useMemoText } from "@/hooks/useMemoText";
 import { saveMemo } from "./saveMemo";
+import { pushErrorNotification } from "@/hooks/useMemoList";
 
 type Props = {
     id?: number;
@@ -13,10 +13,9 @@ type Props = {
 export const MemoInput = React.memo(({ id }: Props) => {
     const queryClient = useQueryClient();
     const [text, setText] = useMemoText();
-    const { dispatch } = useContext(NotificationStack);
 
     const mutation = useMutation<void, Error, { text: string; id: number | undefined }>(
-        async (params) => saveMemo(params, dispatch),
+        async (params) => saveMemo(params),
         {
             onSuccess: () => queryClient.invalidateQueries(["memos"])
         }
@@ -37,8 +36,7 @@ export const MemoInput = React.memo(({ id }: Props) => {
             if (event.key === "Tab") {
                 event.preventDefault();
                 const result = insertIndent(text, setText, event);
-                if (result.err)
-                    dispatch({ type: "push", value: { type: "error", message: "インサートに失敗しました" } });
+                if (result.err) pushErrorNotification("インサートに失敗しました");
             }
         },
         [onSave]
