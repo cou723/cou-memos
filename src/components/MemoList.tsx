@@ -14,10 +14,12 @@ export const MemoList = ({ onEdit, onDelete, className }: Props) => {
         <div>
             {isLoading ? (
                 <div>loading...</div>
-            ) : isError && memos === undefined ? (
+            ) : isError ? (
                 <div>error...</div>
+            ) : memos === undefined ? (
+                <>return data is empty</>
             ) : (
-                memos.map((memo) => (
+                memos?.map((memo) => (
                     <div className={className} key={memo.id}>
                         <MemoView memo={memo} onEdit={onEdit} onDelete={onDelete} />
                     </div>

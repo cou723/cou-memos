@@ -3,7 +3,7 @@ use std::{
     io::Write,
 };
 
-use crate::{Config, ConfigSetError, Error, CONFIG_FILE_PATH};
+use crate::{Config, Error, CONFIG_FILE_PATH};
 
 pub fn get_default_config_string() -> String {
     // get_default_configからくるconfigは固定なので、unwrapしても問題ない
@@ -47,16 +47,15 @@ pub fn get() -> Result<Config, Error> {
     Ok(to_config(config)?)
 }
 
-pub fn set(key: String, value: String) -> Result<(), ConfigSetError> {
-    let config = fs::read_to_string(CONFIG_FILE_PATH)
-        .map_err(|_| ConfigSetError::NormalError(Error::ConfigOpenFailed))?;
+pub fn set(key: String, value: String) -> Result<(), Error> {
+    let config = fs::read_to_string(CONFIG_FILE_PATH).map_err(|_| Error::ConfigOpenFailed)?;
     let mut config: Config = to_config(config)?;
 
     match key.as_str() {
         "data_path" => config.data_path = value,
-        _ => return Err(ConfigSetError::InvalidKey),
+        _ => return Err(Error::ConfigInvalidKey),
     };
 
     println!("set save");
-    save(&config).map_err(|e| ConfigSetError::from(e))
+    save(&config).map_err(|e| Error::from(e))
 }

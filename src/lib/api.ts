@@ -1,91 +1,74 @@
 import { invoke } from "@tauri-apps/api";
 import { Ok, Err, Result } from "ts-results";
-import { Memo, isMemoStruct } from "./memo";
+import { ApiError, isApiError } from "../types/apiError";
+import { Memo, isMemoStruct } from "@/types/memo";
 
 export class api {
-    static async edit_memo(text: string, id: number): Promise<Result<void, Error>> {
+    static async edit_memo(text: string, id: number): Promise<Result<void, ApiError>> {
         try {
             await invoke("edit_memo", { text, id });
             return Ok.EMPTY;
         } catch (e) {
-            console.error("get_memo api :", e);
-            if (e instanceof Error) return Err(e);
-            else return Err(new Error("Unknown error"));
+            return Err(isApiError(e) ? e : "UnknownError");
         }
     }
 
-    static async add_memo(text: string): Promise<Result<void, Error>> {
+    static async add_memo(text: string): Promise<Result<void, ApiError>> {
         try {
             await invoke("add_memo", { text });
             return Ok.EMPTY;
         } catch (e) {
-            console.error("add_memo api :", e);
-            if (e instanceof Error) return Err(e);
-            else return Err(new Error("Unknown error"));
+            return Err(isApiError(e) ? e : "UnknownError");
         }
     }
 
-    static async delete_memo(id: number): Promise<Result<void, Error>> {
+    static async delete_memo(id: number): Promise<Result<void, ApiError>> {
         try {
             await invoke("delete_memo", { id });
             return Ok.EMPTY;
         } catch (e) {
-            console.error("delete_memo api :", e);
-            if (e instanceof Error) return Err(e);
-            else return Err(new Error("Unknown error"));
+            return Err(isApiError(e) ? e : "UnknownError");
         }
     }
 
-    static async get_memo(id: number): Promise<Result<Memo, Error>> {
+    static async get_memo(id: number): Promise<Result<Memo, ApiError | "ReturnIsInvalid">> {
         try {
             const result = await invoke("get_memo", { id });
             if (isMemoStruct(result)) return Ok(new Memo(result));
-            else return Err(new Error("get_memoからMemo以外の値が返されました"));
+            else return Err("ReturnIsInvalid");
         } catch (e) {
-            console.error("get_memo api :", e);
-            if (e instanceof Error) return Err(e);
-            else return Err(new Error("Unknown error"));
+            return Err(isApiError(e) ? e : "UnknownError");
         }
     }
 
-    static async get_memo_list() {
+    static async get_memo_list(): Promise<Result<Memo[], ApiError | "ReturnIsInvalid">> {
         try {
             const result = await invoke("get_memo_list");
             if (typeof result === "object" && result instanceof Array && result.every(isMemoStruct))
                 return Ok(result.map((memo) => new Memo(memo)));
-            else
-                return Err(
-                    new Error(`get_memo_listからMemo[]以外の値が返されました :${JSON.stringify(result, null, 2)}`)
-                );
+            else return Err("ReturnIsInvalid");
         } catch (e) {
-            console.error("api :", e);
-            if (e instanceof Error) return Err(e);
-            else return Err(new Error("Unknown error"));
+            return Err(isApiError(e) ? e : "UnknownError");
         }
     }
 
-    static async get_config() {
+    static async get_config(): Promise<Result<object, ApiError>> {
         try {
             const result = await invoke("get_config");
             if (typeof result === "object" && result !== null) return Ok(result);
-            else
-                return Err(new Error(`get_configからobject以外の値が返されました :${JSON.stringify(result, null, 2)}`));
+            else return Err("ReturnIsInvalid");
         } catch (e) {
-            console.error("get_config api :", e);
-            if (e instanceof Error) return Err(e);
-            else return Err(new Error("Unknown error"));
+            return Err(isApiError(e) ? e : "UnknownError");
         }
     }
 
-    static async set_config(key: string, value: string) {
+    static async set_config(key: string, value: string): Promise<Result<void, ApiError>> {
         console.log("call set config");
         try {
             await invoke("set_config", { key, value });
             return Ok.EMPTY;
         } catch (e) {
-            console.error("set_config api :", e);
-            if (e instanceof Error) return Err(e);
-            else return Err(new Error("Unknown error"));
+            return Err(isApiError(e) ? e : "UnknownError");
         }
     }
 }

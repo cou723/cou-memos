@@ -1,8 +1,7 @@
-import { Memo } from "@/lib/memo";
 import { Card } from "react-daisyui";
 import { Actions } from "./Actions";
 import { MarkdownView } from "./MarkdownView";
-// import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Memo } from "@/types/memo";
 
 type Props = {
     memo: Memo;

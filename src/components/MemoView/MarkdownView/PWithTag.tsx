@@ -11,8 +11,8 @@ export const PWithTag = React.memo(({ text }: { text: string }) => {
 
     const strings = splitTags(text);
 
-    for (const string of strings) {
-        if (isTag(string)) elements.push(<Tag text={string} />);
+    for (const [index, string] of strings.entries()) {
+        if (isTag(string)) elements.push(<Tag text={string} key={index} />);
         else {
             if (elements.slice(-1).length != 0 && elements.slice(-1)[0].type == "p")
                 elements[elements.length - 1] = (

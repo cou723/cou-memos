@@ -1,4 +1,4 @@
-import { Memo } from "@/lib/memo";
+import { Memo } from "@/types/memo";
 import React from "react";
 import { Card, Join, Button } from "react-daisyui";
 import { HiTrash, HiPencilAlt } from "react-icons/hi";
