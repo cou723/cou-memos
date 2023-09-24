@@ -14,7 +14,7 @@ pub mod utils;
 use db::establish_connection;
 use entity::Memo;
 use serde::{Deserialize, Serialize};
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager};
 
 use crate::utils::extract_tags;
 
@@ -139,6 +139,11 @@ fn main() {
             get_config,
             set_config,
         ])
+        .setup(|app| {
+            let window = app.get_window("main").unwrap();
+            window.open_devtools();
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
