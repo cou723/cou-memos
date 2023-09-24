@@ -10,7 +10,7 @@ use crate::{config, set_config, utils::show_message, Error};
 
 no_arg_sql_function!(last_insert_rowid, Integer);
 
-fn get_window(app: AppHandle) -> Result<tauri::Window, Error> {
+fn get_window(app: &AppHandle) -> Result<tauri::Window, Error> {
     app.get_window("c-memos").ok_or(Error::WindowFailed)
 }
 
@@ -38,7 +38,7 @@ pub fn establish_connection(app: AppHandle) -> Result<SqliteConnection, Error> {
     match run_pending_migrations(&conn) {
         Ok(_) => {}
         Err(_) => {
-            show_message(get_window(app)?, "Error: Failed to migrate");
+            show_message(get_window(&app)?, "Error: Failed to migrate");
         }
     }
     Ok(conn)
