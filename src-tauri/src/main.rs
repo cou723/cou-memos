@@ -19,6 +19,7 @@ pub mod utils;
 use db::establish_connection;
 use entity::Memo;
 use serde::{Deserialize, Serialize};
+#[cfg(debug_assertions)]
 use tauri::Manager;
 
 use crate::utils::extract_tags;
@@ -138,9 +139,9 @@ fn main() {
             get_config,
             set_config,
         ])
-        .setup(|app| {
+        .setup(|_app| {
             #[cfg(debug_assertions)]
-            app.get_window("main").unwrap().open_devtools();
+            _app.get_window("main").unwrap().open_devtools();
             Ok(())
         })
         .run(tauri::generate_context!())

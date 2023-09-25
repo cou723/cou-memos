@@ -44,11 +44,11 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.cou-memo.tauri.dev",
+      "identifier": "cou-memos",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
-        "icons/128x128@2x.png",
+        "icons/128x128@x2.png",
         "icons/icon.icns",
         "icons/icon.ico"
       ],
