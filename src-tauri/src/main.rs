@@ -103,7 +103,10 @@ fn get_memo_list() -> Result<Vec<Memo>, Error> {
     let mut memos: Vec<entity::Memo> = Vec::new();
     println!("get_memo_list");
 
+    println!("establish_connection");
     let connection = establish_connection()?;
+
+    println!("get_all");
     let all_memo = db::memo::get_all(&connection)?;
 
     for memo in all_memo {
