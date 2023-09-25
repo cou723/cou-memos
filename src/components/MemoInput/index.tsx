@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { FC, useCallback } from "react";
 import { Button, Textarea } from "react-daisyui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { insertIndent } from "@/lib/editor";
@@ -10,7 +10,7 @@ type Props = {
     id?: number;
 };
 
-export const MemoInput = React.memo(({ id }: Props) => {
+export const MemoInput: FC<Props> = React.memo(({ id }) => {
     const queryClient = useQueryClient();
     const [text, setText] = useMemoText();
 

@@ -1,11 +1,11 @@
 import { useConfigFile } from "@/hooks/useConfigFile";
 import { api } from "@/lib/api";
-import React from "react";
+import React, { FC } from "react";
 import { Button, Input } from "react-daisyui";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
-export const ConfigPage = React.memo(() => {
+export const ConfigPage: FC<void> = React.memo(() => {
     const [config, setConfig] = useConfigFile();
     const nav = useNavigate();
 

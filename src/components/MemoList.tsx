@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { MemoView } from "./MemoView";
 import { useMemoList } from "@/hooks/useMemoList";
 
@@ -7,7 +8,7 @@ type Props = {
     className: string;
 };
 
-export const MemoList = ({ onEdit, onDelete, className }: Props) => {
+export const MemoList: FC<Props> = ({ onEdit, onDelete, className }: Props) => {
     const { isLoading, isError, data: memos } = useMemoList();
 
     return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Tag } from "./Tag";
 import { splitTags } from "@/lib/extractTag";
 
@@ -6,25 +6,24 @@ function isTag(text: string): boolean {
     return text.startsWith("#");
 }
 
-export const PWithTag = React.memo(({ text }: { text: string }) => {
+type Props = { text: string };
+
+export const PWithTag: FC<Props> = React.memo(({ text }) => {
     const elements: JSX.Element[] = [];
 
-    const strings = splitTags(text);
+    const texts = splitTags(text);
 
-    for (const [index, string] of strings.entries()) {
-        if (isTag(string)) elements.push(<Tag text={string} key={index} />);
+    for (const [index, text] of texts.entries()) {
+        if (isTag(text.text)) elements.push(<Tag text={text.text} key={index} />);
         else {
-            if (elements.slice(-1).length != 0 && elements.slice(-1)[0].type == "p")
-                elements[elements.length - 1] = (
-                    <>
-                        {elements.slice(-1)[0].props.children} {string}
-                    </>
-                );
-            else elements.push(<>{string}</>);
+            elements.push(
+                <>
+                    {text.before != null ? text.before == "\n" ? <br /> : text.before : ""}
+                    {text.text}
+                </>
+            );
         }
     }
-
-    console.log(elements);
 
     return <>{elements.map((element) => element)}</>;
 });

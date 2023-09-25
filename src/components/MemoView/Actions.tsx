@@ -1,5 +1,5 @@
 import { Memo } from "@/types/memo";
-import React from "react";
+import React, { FC } from "react";
 import { Card, Join, Button } from "react-daisyui";
 import { HiTrash, HiPencilAlt } from "react-icons/hi";
 
@@ -9,7 +9,7 @@ type Props = {
     handleEdit: () => void;
 };
 
-export const Actions = React.memo(({ memo, handleDelete, handleEdit }: Props) => {
+export const Actions: FC<Props> = React.memo(({ memo, handleDelete, handleEdit }: Props) => {
     return (
         <Card.Actions className="justify-between items-end">
             <span className="align-text-bottom h-full">{memo.updated_at.toISOString()}</span>

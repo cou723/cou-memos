@@ -1,7 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Badge } from "react-daisyui";
 
-export const Tag = React.memo(({ text }: { text: string }) => {
+type Props = { text: string };
+
+export const Tag: FC<Props> = React.memo(({ text }) => {
     return (
         <Badge color="neutral" className="mr-2">
             {text}
