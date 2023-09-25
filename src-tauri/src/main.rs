@@ -112,6 +112,7 @@ fn get_memo_list() -> Result<Vec<Memo>, Error> {
             db::tag::get_list(&connection, &memo.id)?,
         ));
     }
+    println!("get_memo_list: {:?}", memos);
 
     Ok(memos)
 }
