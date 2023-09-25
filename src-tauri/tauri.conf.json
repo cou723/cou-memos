@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "cou-memos",
-    "version": "0.0.6"
+    "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
@@ -51,6 +51,9 @@
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
+      ],
+      "resources": [
+        "migrations/"
       ]
     },
     "security": {

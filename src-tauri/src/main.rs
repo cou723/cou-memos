@@ -1,6 +1,11 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 #[macro_use]
+extern crate diesel_migrations;
+
+embed_migrations!("migrations");
+
+#[macro_use]
 extern crate diesel;
 extern crate dotenv;
 

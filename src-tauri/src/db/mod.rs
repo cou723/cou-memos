@@ -42,12 +42,24 @@ pub fn establish_connection() -> Result<SqliteConnection, Error> {
         Ok(is) => {
             if is {
                 println!("run migration");
-                run_pending_migrations(&conn).map_err(|_| Error::DbMigrationFailed)?;
+                match run_pending_migrations(&conn) {
+                    Ok(_) => (),
+                    Err(e) => {
+                        println!("migration failed: {:?}", e);
+                        return Err(Error::DbMigrationFailed);
+                    }
+                }
             }
         }
         Err(_) => {
             println!("run migration");
-            run_pending_migrations(&conn).map_err(|_| Error::DbMigrationFailed)?;
+            match run_pending_migrations(&conn) {
+                Ok(_) => (),
+                Err(e) => {
+                    println!("migration failed: {:?}", e);
+                    return Err(Error::DbMigrationFailed);
+                }
+            }
         }
     }
 
