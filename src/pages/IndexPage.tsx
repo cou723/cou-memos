@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { HiAdjustments } from "react-icons/hi";
 import { pushErrorNotification } from "@/hooks/useMemoList";
 
-export const IndexPage: FC<void> = React.memo(() => {
+export const IndexPage: FC<{}> = React.memo(() => {
     const [id, setId] = useState<number | undefined>(undefined);
     const queryClient = useQueryClient();
 

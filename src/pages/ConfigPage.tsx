@@ -5,7 +5,7 @@ import { Button, Input } from "react-daisyui";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
-export const ConfigPage: FC<void> = React.memo(() => {
+export const ConfigPage: FC<{}> = React.memo(() => {
     const [config, setConfig] = useConfigFile();
     const nav = useNavigate();
 
