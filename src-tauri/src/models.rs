@@ -18,7 +18,7 @@ pub struct NewMemo<'a> {
     pub content: &'a str,
 }
 
-#[derive(Queryable, Clone, Serialize, Deserialize)]
+#[derive(Queryable, Clone, Serialize, Deserialize, Debug)]
 pub struct Tag {
     pub id: i32,
     pub content: String,
