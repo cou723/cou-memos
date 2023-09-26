@@ -10,7 +10,8 @@ type Props = {
 export const MemoSearchBox: FC<Props> = ({ searchTags, setSearchTags, className }: Props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tags = e.target.value;
-        setSearchTags(tags.split(" "));
+        if (tags == "") setSearchTags([]);
+        else setSearchTags(tags.split(" "));
     };
 
     return <Input className={`w-full ${className}`} value={searchTags.join(" ")} onChange={handleChange} />;

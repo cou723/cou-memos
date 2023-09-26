@@ -79,12 +79,21 @@ pub fn get(conn: &SqliteConnection, id: i32) -> Result<Memo, Error> {
 pub fn get_all(
     conn: &SqliteConnection,
     search_query: Vec<String>,
-) -> Result<Vec<(Memo, Tag)>, Error> {
-    memos::table
-        .left_outer_join(memo_tags::table.on(memos::id.eq(memo_tags::memo_id)))
-        .inner_join(tags::table.on(tags::id.eq(memo_tags::tag_id)))
-        .select((memos::all_columns, tags::all_columns))
-        .filter(tags::content.eq_any(search_query))
-        .load::<(Memo, Tag)>(conn)
-        .map_err(|_e| Error::DbOperationFailed)
+) -> Result<Vec<(Memo, Option<Tag>)>, Error> {
+    let table = memos::table
+        .left_join(memo_tags::table.on(memos::id.eq(memo_tags::memo_id)))
+        .left_join(tags::table.on(memo_tags::tag_id.eq(tags::id)));
+
+    if search_query.is_empty() {
+        table
+            .select((memos::all_columns, tags::all_columns.nullable()))
+            .load::<(Memo, Option<Tag>)>(conn)
+            .map_err(|_e| Error::DbOperationFailed)
+    } else {
+        table
+            .select((memos::all_columns, tags::all_columns.nullable()))
+            .filter(tags::content.eq_any(search_query))
+            .load::<(Memo, Option<Tag>)>(conn)
+            .map_err(|_e| Error::DbOperationFailed)
+    }
 }
