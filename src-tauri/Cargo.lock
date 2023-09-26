@@ -395,7 +395,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "cous-memo"
+name = "cou-memos"
 version = "0.0.1"
 dependencies = [
  "diesel",
