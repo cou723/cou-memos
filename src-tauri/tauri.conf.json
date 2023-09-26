@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "cou-memos",
-    "version": "1.1.0"
+    "version": "1.1.1"
   },
   "tauri": {
     "allowlist": {
@@ -63,7 +63,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "tauri-app",
+        "title": "cou-memos",
         "width": 800,
         "height": 600
       }
