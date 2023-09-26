@@ -12,6 +12,7 @@ async function fetchMemos({ queryKey }: any) {
         if (getAllResult.val == "DbNotFound") {
             message += "。データベースファイルへのアクセスに失敗しました。";
         }
+        message += `(${getAllResult.val})`;
         throw new Error(message);
     }
 }

@@ -10,19 +10,13 @@ pub mod tag;
 no_arg_sql_function!(last_insert_rowid, Integer);
 
 pub fn establish_connection() -> Result<SqliteConnection, Error> {
-    println!("get config");
     let config = config::get().map_err(|_| Error::ConfigNotFound)?;
-    println!("got config");
 
     let path = Path::new(&config.data_path);
-
-    println!("path: {:?}", path);
     if !path.exists() {
         fs::create_dir_all(path).map_err(|_| Error::CreateDirectoryFailed)?;
     }
-    println!("path exists");
 
-    println!("get connection");
     let db_path = config.data_path + "/c_memos";
     let conn = match SqliteConnection::establish(&db_path) {
         Ok(v) => v,
@@ -35,34 +29,16 @@ pub fn establish_connection() -> Result<SqliteConnection, Error> {
                 .map_err(|_| Error::DbNotFound)?
         }
     };
-    println!("got connection");
 
-    println!("any_pending_migrations");
     match any_pending_migrations(&conn) {
-        Ok(is) => {
-            if is {
-                println!("run migration");
-                match run_pending_migrations(&conn) {
-                    Ok(_) => (),
-                    Err(e) => {
-                        println!("migration failed: {:?}", e);
-                        return Err(Error::DbMigrationFailed);
-                    }
-                }
-            }
-        }
-        Err(_) => {
+        Ok(true) | Err(_) => {
             println!("run migration");
-            match run_pending_migrations(&conn) {
-                Ok(_) => (),
-                Err(e) => {
-                    println!("migration failed: {:?}", e);
-                    return Err(Error::DbMigrationFailed);
-                }
+            if let Err(_) = run_pending_migrations(&conn) {
+                return Err(Error::DbMigrationFailed);
             }
         }
+        _ => (),
     }
 
-    println!("establish_connection");
     Ok(conn)
 }

@@ -42,14 +42,14 @@ export class api {
         }
     }
 
-    static async get_memo_list(searchQuery: SearchQuery): Promise<Result<Memo[], ApiError | "ReturnIsInvalid">> {
+    static async get_memo_list(searchQuery: string[]): Promise<Result<Memo[], ApiError | "ReturnIsInvalid">> {
         try {
-            const result = await invoke("get_memo_list", { search_query: searchQuery });
+            const result = await invoke("get_memo_list", { searchQuery });
             if (typeof result === "object" && result instanceof Array && result.every(isMemoStruct))
                 return Ok(result.map((memo) => new Memo(memo)));
             else return Err("ReturnIsInvalid");
         } catch (e) {
-            return Err(isApiError(e) ? e : "UnknownError");
+            return Err(isApiError(e) ? e : "UnknownError: " + e);
         }
     }
 
