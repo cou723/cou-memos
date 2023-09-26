@@ -6,7 +6,7 @@ use crate::Error;
 use crate::models::*;
 
 pub fn add(conn: &SqliteConnection, memo_id: i32, tag_id: i32) -> Result<(), Error> {
-    let new_post = NewMemoTags { memo_id, tag_id };
+    let new_post = NewMemoTag { memo_id, tag_id };
 
     if db::memo_tag::is_exist(conn, memo_id, tag_id)? {
         return Ok(());
@@ -35,7 +35,7 @@ pub fn is_exist(conn: &SqliteConnection, memo_id: i32, tag_id: i32) -> Result<bo
     match memo_tags::table
         .filter(memo_tags::memo_id.eq(memo_id))
         .filter(memo_tags::tag_id.eq(tag_id))
-        .load::<models::MemoTags>(conn)
+        .load::<models::MemoTag>(conn)
     {
         Ok(v) => return Ok(v.len() != 0),
         Err(_) => return Err(Error::DbOperationFailed),

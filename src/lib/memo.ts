@@ -2,6 +2,7 @@ import { Result } from "ts-results";
 import { api } from "./api";
 import { ApiError } from "@/types/apiError";
 import { Memo } from "@/types/memo";
+import { SearchQuery } from "@/types/searchQuery";
 
 export class MemoDB {
     static async post(text: string, id?: number): Promise<Result<void, ApiError>> {
@@ -17,7 +18,7 @@ export class MemoDB {
         return await api.get_memo(id);
     }
 
-    static async getAll(): Promise<Result<Memo[], ApiError>> {
-        return await api.get_memo_list();
+    static async getAll(searchQuery: SearchQuery): Promise<Result<Memo[], ApiError>> {
+        return await api.get_memo_list(searchQuery);
     }
 }

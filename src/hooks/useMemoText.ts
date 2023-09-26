@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { MemoDB } from "@/lib/memo";
-import { pushErrorNotification } from "./useMemoList";
+import { useNotification } from "./useMemoList";
 
 export function useMemoText(id?: number): [string, React.Dispatch<React.SetStateAction<string>>] {
     const [text, setText] = useState("");
+    const { pushErrorNotification } = useNotification();
+
     useEffect(() => {
         if (id === undefined) return;
         (async () => {

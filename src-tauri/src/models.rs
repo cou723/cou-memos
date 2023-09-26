@@ -4,7 +4,7 @@ use super::schema::memo_tags;
 use super::schema::memos;
 use super::schema::tags;
 
-#[derive(Queryable, Clone, Serialize, Deserialize)]
+#[derive(Queryable, Clone, Serialize, Deserialize, Debug)]
 pub struct Memo {
     pub id: i32,
     pub content: String,
@@ -33,14 +33,14 @@ pub struct NewTag<'a> {
 
 #[derive(Queryable, Clone, Serialize, Deserialize)]
 
-pub struct MemoTags {
+pub struct MemoTag {
     pub memo_id: i32,
     pub tag_id: i32,
 }
 
 #[derive(Insertable)]
 #[table_name = "memo_tags"]
-pub struct NewMemoTags {
+pub struct NewMemoTag {
     pub memo_id: i32,
     pub tag_id: i32,
 }

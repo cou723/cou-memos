@@ -105,7 +105,7 @@ fn get_memo(id: i32) -> Result<Memo, Error> {
 }
 
 #[tauri::command]
-fn get_memo_list() -> Result<Vec<Memo>, Error> {
+fn get_memo_list(search_query: Vec<String>) -> Result<Vec<Memo>, Error> {
     let mut memos: Vec<entity::Memo> = Vec::new();
     println!("get_memo_list");
 
@@ -113,14 +113,32 @@ fn get_memo_list() -> Result<Vec<Memo>, Error> {
     let connection = establish_connection()?;
 
     println!("get_all");
-    let all_memo = db::memo::get_all(&connection)?;
+    let memo_tags = db::memo::get_all(&connection, search_query)?;
+    println!("memo_tags: {:?}", memo_tags);
 
-    for memo in all_memo {
-        memos.push(Memo::from_models(
-            memo.clone(),
-            db::tag::get_list(&connection, &memo.id)?,
-        ));
-    }
+    // for memo_tag in memo_tags {
+    //     if memos.iter().filter(|x| x.id == memo_tag.0.id).count() == 0 {
+    //         memos.push(Memo {
+    //             id: memo_tag.0.id,
+    //             content: memo_tag.0.content,
+    //             updated_at: memo_tag.0.updated_at,
+    //             created_at: memo_tag.0.created_at,
+    //             tags: vec![memo_tag.1.clone()],
+    //         });
+    //     } else {
+    //         memos
+    //             .iter()
+    //             .filter(|x| x.id == memo_tag.0.id)
+    //             .for_each(|x| x.tags.push(memo_tag.1.clone()));
+    //     }
+    // }
+
+    // for memo in all_memo {
+    //     memos.push(Memo::from_models(
+    //         memo.clone(),
+    //         db::tag::get_list(&connection, &memo.id)?,
+    //     ));
+    // }
     println!("get_memo_list: {:?}", memos);
 
     Ok(memos)
