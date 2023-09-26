@@ -3,7 +3,15 @@ use std::{
     io::Write,
 };
 
-use crate::{Config, Error, CONFIG_FILE_PATH};
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Config {
+    pub data_path: String,
+    pub is_show_save_button: bool,
+}
+
+use serde::{Deserialize, Serialize};
+
+use crate::{Error, CONFIG_FILE_PATH};
 
 pub fn get_default_config_string() -> String {
     // get_default_configからくるconfigは固定なので、unwrapしても問題ない
@@ -13,6 +21,7 @@ pub fn get_default_config_string() -> String {
 pub fn get_default_config() -> Config {
     return Config {
         data_path: "../".to_string(),
+        is_show_save_button: true,
     };
 }
 
@@ -53,9 +62,18 @@ pub fn set(key: String, value: String) -> Result<(), Error> {
 
     match key.as_str() {
         "data_path" => config.data_path = value,
+        "is_show_save_button" => {
+            config.is_show_save_button =
+                value.parse::<bool>().map_err(|_| Error::ConfigInvalidKey)?
+        }
         _ => return Err(Error::ConfigInvalidKey),
     };
 
-    println!("set save");
+    println!("set save",);
+    save(&config).map_err(|e| Error::from(e))
+}
+
+pub fn set_all(config: Config) -> Result<(), Error> {
+    eprintln!("save all {:?}", config);
     save(&config).map_err(|e| Error::from(e))
 }

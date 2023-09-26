@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { MemoView } from "./MemoView";
 import { useMemoList } from "@/hooks/useMemoList";
+import React from "react";
 
 type Props = {
     searchQuery: string[];
@@ -9,7 +10,7 @@ type Props = {
     className: string;
 };
 
-export const MemoList: FC<Props> = ({ searchQuery, onEdit, onDelete, className }: Props) => {
+export const MemoList: FC<Props> = React.memo(({ searchQuery, onEdit, onDelete, className }: Props) => {
     const { isLoading, isError, data: memos } = useMemoList(searchQuery);
 
     return (
@@ -29,4 +30,4 @@ export const MemoList: FC<Props> = ({ searchQuery, onEdit, onDelete, className }
             )}
         </div>
     );
-};
+});

@@ -3,8 +3,9 @@ import { Button, Textarea } from "react-daisyui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { insertIndent } from "@/lib/editor";
 import { useMemoText } from "@/hooks/useMemoText";
-import { useNotification } from "@/hooks/useMemoList";
+import { useNotification } from "@/hooks/useNotification";
 import { useSaveMemo } from "./saveMemo";
+import { useConfigFile } from "@/hooks/useConfigFile";
 
 type Props = {
     id?: number;
@@ -15,6 +16,7 @@ export const MemoInput: FC<Props> = React.memo(({ id }) => {
     const [text, setText] = useMemoText();
     const { pushErrorNotification } = useNotification();
     const saveMemo = useSaveMemo();
+    const [config] = useConfigFile();
 
     const mutation = useMutation<void, Error, { text: string; id: number | undefined }>(
         async (params) => saveMemo(params),
@@ -31,6 +33,8 @@ export const MemoInput: FC<Props> = React.memo(({ id }) => {
         mutation.mutate({ text, id });
         setText("");
     };
+
+    console.log("is shown save button :", config.is_show_save_button);
 
     const handleKeyDown = useCallback(
         (event: React.KeyboardEvent) => {
@@ -53,7 +57,7 @@ export const MemoInput: FC<Props> = React.memo(({ id }) => {
                 onKeyDown={handleKeyDown}
             />
             <div className="flex justify-end">
-                <Button size="sm" className="mt-2" onClick={onSave}>
+                <Button size="sm" className={`mt-2 ${config.is_show_save_button ? "" : "hidden"}`} onClick={onSave}>
                     保存
                 </Button>
             </div>

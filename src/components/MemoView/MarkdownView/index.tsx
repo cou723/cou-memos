@@ -27,7 +27,11 @@ export const MarkdownView: FC<Props> = React.memo(({ text }) => {
                     );
                 },
                 p({ children }) {
-                    return <PWithTag text={children.toString()} />;
+                    for (const child of children) {
+                        if (typeof child === "string" || typeof child == "number" || typeof child == "boolean")
+                            return <PWithTag text={child.toString()} />;
+                        else return child;
+                    }
                 }
             }}
             className="memo"

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MemoDB } from "@/lib/memo";
-import { useNotification } from "./useMemoList";
+import { useNotification } from "./useNotification";
 
 export function useMemoText(id?: number): [string, React.Dispatch<React.SetStateAction<string>>] {
     const [text, setText] = useState("");

@@ -14,8 +14,10 @@ export const PWithTag: FC<Props> = React.memo(({ text }) => {
     const texts = splitTags(text);
 
     for (const [index, text] of texts.entries()) {
-        if (isTag(text.text)) elements.push(<Tag text={text.text} key={index} />);
-        else {
+        if (isTag(text.text)) {
+            console.log("set key:", index);
+            elements.push(<Tag text={text.text} key={index} />);
+        } else {
             elements.push(
                 <>
                     {text.before != null ? text.before == "\n" ? <br /> : text.before : ""}
@@ -24,7 +26,6 @@ export const PWithTag: FC<Props> = React.memo(({ text }) => {
             );
         }
     }
-    console.log(elements);
 
     return <>{elements.map((element) => element)}</>;
 });

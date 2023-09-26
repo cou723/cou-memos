@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { FC, useContext } from "react";
 import { NotificationStack } from "./providers/NotificationProvider";
 import { Alert, Button, Toast } from "react-daisyui";
-import { useNotification } from "./hooks/useMemoList";
+import { useNotification } from "./hooks/useNotification";
 
 const App: FC<{}> = () => {
     const { state } = useContext(NotificationStack);

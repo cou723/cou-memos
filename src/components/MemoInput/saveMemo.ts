@@ -1,4 +1,4 @@
-import { useNotification } from "@/hooks/useMemoList";
+import { useNotification } from "@/hooks/useNotification";
 import { MemoDB } from "@/lib/memo";
 
 export function useSaveMemo() {

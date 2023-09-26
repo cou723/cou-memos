@@ -23,6 +23,8 @@ export const Primary: Story = {
 - list1
 - list2
 - list3
+*bold*
+**italic**
 \`\`\`
 code
 \`\`\`
