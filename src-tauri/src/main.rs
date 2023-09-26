@@ -19,6 +19,7 @@ pub mod utils;
 use db::establish_connection;
 use entity::Memo;
 use serde::{Deserialize, Serialize};
+#[cfg(debug_assertions)]
 use tauri::Manager;
 
 use crate::utils::extract_tags;
@@ -104,23 +105,36 @@ fn get_memo(id: i32) -> Result<Memo, Error> {
 }
 
 #[tauri::command]
-fn get_memo_list() -> Result<Vec<Memo>, Error> {
+fn get_memo_list(search_query: Vec<String>) -> Result<Vec<Memo>, Error> {
+    println!("call get_memo_list: {:?}", search_query);
     let mut memos: Vec<entity::Memo> = Vec::new();
-    println!("get_memo_list");
 
-    println!("establish_connection");
     let connection = establish_connection()?;
 
-    println!("get_all");
-    let all_memo = db::memo::get_all(&connection)?;
+    let memo_tags = db::memo::get_all(&connection, search_query)?;
 
-    for memo in all_memo {
-        memos.push(Memo::from_models(
-            memo.clone(),
-            db::tag::get_list(&connection, &memo.id)?,
-        ));
+    for memo_tag in memo_tags {
+        if memos.iter().filter(|x| x.id == memo_tag.0.id).count() == 0 {
+            memos.push(Memo {
+                id: memo_tag.0.id,
+                content: memo_tag.0.content,
+                updated_at: memo_tag.0.updated_at,
+                created_at: memo_tag.0.created_at,
+                tags: match memo_tag.1 {
+                    Some(x) => vec![x.clone()],
+                    None => vec![],
+                },
+            });
+        } else {
+            let target = memos.iter_mut().find(|x| x.id == memo_tag.0.id).unwrap();
+            match memo_tag.1 {
+                Some(x) => target.tags.push(x.clone()),
+                None => {}
+            }
+        }
     }
-    println!("get_memo_list: {:?}", memos);
+
+    println!("result get_memo_list: {:?}", memos);
 
     Ok(memos)
 }
@@ -138,9 +152,9 @@ fn main() {
             get_config,
             set_config,
         ])
-        .setup(|app| {
+        .setup(|_app| {
             #[cfg(debug_assertions)]
-            app.get_window("main").unwrap().open_devtools();
+            _app.get_window("main").unwrap().open_devtools();
             Ok(())
         })
         .run(tauri::generate_context!())

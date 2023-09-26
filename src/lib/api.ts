@@ -2,6 +2,7 @@ import { invoke } from "@tauri-apps/api";
 import { Ok, Err, Result } from "ts-results";
 import { ApiError, isApiError } from "../types/apiError";
 import { Memo, isMemoStruct } from "@/types/memo";
+import { SearchQuery } from "@/types/searchQuery";
 
 export class api {
     static async edit_memo(text: string, id: number): Promise<Result<void, ApiError>> {
@@ -41,14 +42,14 @@ export class api {
         }
     }
 
-    static async get_memo_list(): Promise<Result<Memo[], ApiError | "ReturnIsInvalid">> {
+    static async get_memo_list(searchQuery: string[]): Promise<Result<Memo[], ApiError | "ReturnIsInvalid">> {
         try {
-            const result = await invoke("get_memo_list");
+            const result = await invoke("get_memo_list", { searchQuery });
             if (typeof result === "object" && result instanceof Array && result.every(isMemoStruct))
                 return Ok(result.map((memo) => new Memo(memo)));
             else return Err("ReturnIsInvalid");
         } catch (e) {
-            return Err(isApiError(e) ? e : "UnknownError");
+            return Err(isApiError(e) ? e : "UnknownError: " + e);
         }
     }
 

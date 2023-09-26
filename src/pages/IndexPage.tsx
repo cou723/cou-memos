@@ -6,11 +6,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "react-daisyui";
 import { useNavigate } from "react-router-dom";
 import { HiAdjustments } from "react-icons/hi";
-import { pushErrorNotification } from "@/hooks/useMemoList";
+import { MemoSearchBox } from "@/components/MemoSearchBox";
+import { useNotification } from "@/hooks/useMemoList";
 
 export const IndexPage: FC<{}> = React.memo(() => {
     const [id, setId] = useState<number | undefined>(undefined);
+    const [searchQuery, setSearchQuery] = useState<string[]>([]);
     const queryClient = useQueryClient();
+    const { pushErrorNotification } = useNotification();
 
     const nav = useNavigate();
 
@@ -39,7 +42,8 @@ export const IndexPage: FC<{}> = React.memo(() => {
                 <HiAdjustments className="text-xl" />
             </Button>
             <MemoInput id={id} />
-            <MemoList className="mt-3" onEdit={(id) => setId(id)} onDelete={handleDelete} />
+            <MemoSearchBox searchTags={searchQuery} setSearchTags={setSearchQuery} className="mt-3" />
+            <MemoList searchQuery={searchQuery} className="mt-3" onEdit={(id) => setId(id)} onDelete={handleDelete} />
         </div>
     );
 });

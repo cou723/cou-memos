@@ -24,6 +24,7 @@ export const PWithTag: FC<Props> = React.memo(({ text }) => {
             );
         }
     }
+    console.log(elements);
 
     return <>{elements.map((element) => element)}</>;
 });

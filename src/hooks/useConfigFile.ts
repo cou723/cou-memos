@@ -1,10 +1,11 @@
 import { api } from "@/lib/api";
 import { Config } from "@/types/config";
 import { useEffect, useState } from "react";
-import { pushErrorNotification } from "./useMemoList";
+import { useNotification } from "./useMemoList";
 
 export function useConfigFile(): [Config, React.Dispatch<React.SetStateAction<Config>>] {
     const [config, setConfig] = useState<Config>({ data_path: "" } as Config);
+    const { pushErrorNotification } = useNotification();
 
     useEffect(() => {
         const fetchConfig = async () => {

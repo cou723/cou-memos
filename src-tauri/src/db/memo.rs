@@ -1,6 +1,6 @@
 use crate::{
-    models::{Memo, MemoTags, NewMemo},
-    schema::{memo_tags, memos},
+    models::{Memo, MemoTag, NewMemo, Tag},
+    schema::{memo_tags, memos, tags},
     Error,
 };
 
@@ -37,7 +37,7 @@ pub fn add(conn: &SqliteConnection, title: &str, tags: Vec<String>) -> Result<()
 }
 
 pub fn delete(conn: &SqliteConnection, id: i32) -> Result<(), Error> {
-    let target_tags: Vec<MemoTags> = memo_tags::table
+    let target_tags: Vec<MemoTag> = memo_tags::table
         .filter(memo_tags::memo_id.eq(id))
         .load(conn)
         .map_err(|_| Error::DbOperationFailed)?;
@@ -76,8 +76,24 @@ pub fn get(conn: &SqliteConnection, id: i32) -> Result<Memo, Error> {
         .map_err(|_e| Error::DbOperationFailed)
 }
 
-pub fn get_all(conn: &SqliteConnection) -> Result<Vec<Memo>, Error> {
-    memos::table
-        .load::<Memo>(conn)
-        .map_err(|_| Error::DbOperationFailed)
+pub fn get_all(
+    conn: &SqliteConnection,
+    search_query: Vec<String>,
+) -> Result<Vec<(Memo, Option<Tag>)>, Error> {
+    let table = memos::table
+        .left_join(memo_tags::table.on(memos::id.eq(memo_tags::memo_id)))
+        .left_join(tags::table.on(memo_tags::tag_id.eq(tags::id)));
+
+    if search_query.is_empty() {
+        table
+            .select((memos::all_columns, tags::all_columns.nullable()))
+            .load::<(Memo, Option<Tag>)>(conn)
+            .map_err(|_e| Error::DbOperationFailed)
+    } else {
+        table
+            .select((memos::all_columns, tags::all_columns.nullable()))
+            .filter(tags::content.eq_any(search_query))
+            .load::<(Memo, Option<Tag>)>(conn)
+            .map_err(|_e| Error::DbOperationFailed)
+    }
 }

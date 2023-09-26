@@ -3,8 +3,8 @@ import { Button, Textarea } from "react-daisyui";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { insertIndent } from "@/lib/editor";
 import { useMemoText } from "@/hooks/useMemoText";
-import { saveMemo } from "./saveMemo";
-import { pushErrorNotification } from "@/hooks/useMemoList";
+import { useNotification } from "@/hooks/useMemoList";
+import { useSaveMemo } from "./saveMemo";
 
 type Props = {
     id?: number;
@@ -13,6 +13,8 @@ type Props = {
 export const MemoInput: FC<Props> = React.memo(({ id }) => {
     const queryClient = useQueryClient();
     const [text, setText] = useMemoText();
+    const { pushErrorNotification } = useNotification();
+    const saveMemo = useSaveMemo();
 
     const mutation = useMutation<void, Error, { text: string; id: number | undefined }>(
         async (params) => saveMemo(params),

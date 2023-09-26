@@ -3,13 +3,14 @@ import { MemoView } from "./MemoView";
 import { useMemoList } from "@/hooks/useMemoList";
 
 type Props = {
+    searchQuery: string[];
     onEdit: (id: number) => void;
     onDelete: (id: number) => void;
     className: string;
 };
 
-export const MemoList: FC<Props> = ({ onEdit, onDelete, className }: Props) => {
-    const { isLoading, isError, data: memos } = useMemoList();
+export const MemoList: FC<Props> = ({ searchQuery, onEdit, onDelete, className }: Props) => {
+    const { isLoading, isError, data: memos } = useMemoList(searchQuery);
 
     return (
         <div>
