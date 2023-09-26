@@ -2,7 +2,6 @@ import { invoke } from "@tauri-apps/api";
 import { Ok, Err, Result } from "ts-results";
 import { ApiError, isApiError } from "../types/apiError";
 import { Memo, isMemoStruct } from "@/types/memo";
-import { SearchQuery } from "@/types/searchQuery";
 
 export class api {
     static async edit_memo(text: string, id: number): Promise<Result<void, ApiError>> {
