@@ -2,6 +2,7 @@ import { invoke } from "@tauri-apps/api";
 import { Ok, Err, Result } from "ts-results";
 import { ApiError, isApiError } from "../types/apiError";
 import { Memo, isMemoStruct } from "@/types/memo";
+import { Config, isConfig } from "@/types/config";
 
 export class api {
     static async edit_memo(text: string, id: number): Promise<Result<void, ApiError>> {
@@ -52,10 +53,10 @@ export class api {
         }
     }
 
-    static async get_config(): Promise<Result<object, ApiError>> {
+    static async get_config(): Promise<Result<Config, ApiError>> {
         try {
             const result = await invoke("get_config");
-            if (typeof result === "object" && result !== null) return Ok(result);
+            if (isConfig(result)) return Ok(result);
             else return Err("ReturnIsInvalid");
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError");
@@ -63,9 +64,17 @@ export class api {
     }
 
     static async set_config(key: string, value: string): Promise<Result<void, ApiError>> {
-        console.log("call set config");
         try {
             await invoke("set_config", { key, value });
+            return Ok.EMPTY;
+        } catch (e) {
+            return Err(isApiError(e) ? e : "UnknownError");
+        }
+    }
+
+    static async save_config(config: Config): Promise<Result<void, ApiError>> {
+        try {
+            await invoke("save_config", { config });
             return Ok.EMPTY;
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError");

@@ -7,7 +7,7 @@ import { Button } from "react-daisyui";
 import { useNavigate } from "react-router-dom";
 import { HiAdjustments } from "react-icons/hi";
 import { MemoSearchBox } from "@/components/MemoSearchBox";
-import { useNotification } from "@/hooks/useMemoList";
+import { useNotification } from "@/hooks/useNotification";
 
 export const IndexPage: FC<{}> = React.memo(() => {
     const [id, setId] = useState<number | undefined>(undefined);

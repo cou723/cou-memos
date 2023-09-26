@@ -16,6 +16,7 @@ pub mod models;
 pub mod schema;
 pub mod utils;
 
+use config::Config;
 use db::establish_connection;
 use entity::Memo;
 use serde::{Deserialize, Serialize};
@@ -23,11 +24,6 @@ use serde::{Deserialize, Serialize};
 use tauri::Manager;
 
 use crate::utils::extract_tags;
-
-#[derive(Serialize, Deserialize)]
-pub struct Config {
-    data_path: String,
-}
 
 pub const CONFIG_FILE_PATH: &str = "../config.json";
 
@@ -55,6 +51,11 @@ fn get_config() -> Result<Config, Error> {
 #[tauri::command]
 fn set_config(key: String, value: String) -> Result<(), Error> {
     config::set(key, value)
+}
+
+#[tauri::command]
+fn save_config(config: Config) -> Result<(), Error> {
+    config::set_all(config)
 }
 
 #[tauri::command]
@@ -151,6 +152,7 @@ fn main() {
             add_memo,
             get_config,
             set_config,
+            save_config
         ])
         .setup(|_app| {
             #[cfg(debug_assertions)]
