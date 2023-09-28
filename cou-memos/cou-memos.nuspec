@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>cou-memos</id>
+    <version>1.2.1</version>
+    <title>cou-memos (Install)</title>
+    <authors>cou</authors>
+    <projectUrl>https://github.com/cou723/cou-memos/tree/main</projectUrl>
+    <tags>cou-memos memo notes productivity organization writing</tags>
+    <summary>Memos-inspired memo app created by Memos</summary>
+    <description>Memos-inspired memo app created by Memos</description>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>
