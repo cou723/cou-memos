@@ -6,8 +6,8 @@
     --color: #e6e6e6;
     --title-color: #ffffff;
     --bg-color: #505050;
-    --code-bg-color: #F3F4F6;
-    --code-border-color: #E5E7EB;
+    --code-bg-color: #2d323f;
+    --code-border-color: #8f8f8f;
 }
 
 .memo *{
@@ -19,6 +19,7 @@
 .memo h1, .memo h2, .memo h3, .memo h4, .memo h5, .memo h6{
     color: var(--title-color);
     font-weight: 700;
+    margin-bottom: 0.5rem;
 }
 
 .memo h1{
@@ -62,7 +63,7 @@
 .memo p , .memo ol, .memo li, .memo ul, .memo blockquote{
     color: var(--color);
     font-weight: 400;
-
+    margin-bottom: 0.25rem;
 }
 
 .memo p{
@@ -92,4 +93,11 @@
 .memo blockquote{
     font-size: 1.25rem;
     line-height: 1.75rem;
+}
+
+.memo .inline-code{
+    background-color: var(--code-bg-color);
+    border: 1px solid var(--code-border-color);
+    border-radius: 0.2rem;
+    padding: 0.25rem;
 }

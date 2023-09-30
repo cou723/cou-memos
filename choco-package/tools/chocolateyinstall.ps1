@@ -1,15 +1,15 @@
 ﻿$ErrorActionPreference = 'Stop' # stop on all errors
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$Version    = $env:BuildVersion
-$url64      = "https://github.com/cou723/cou-memos/releases/download/cou-memos-v"+$Version+"/cou-memos_"+$Version+"_x64-setup.exe"
+$Version    = "1.2.1"
+$url64      = "https://github.com/cou723/cou-memos/releases/download/cou-memos-v"+$Version+"/cou-memos_"+$Version+"_x64_en-US.msi"
 
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName
   unzipLocation = $toolsDir
-  fileType      = 'exe'
+  fileType      = 'msi'
   url64bit      = $url64
   checksum64    = ''
   checksumType64= 'sha256'
+  silentArgs    = "/quiet" # add this line
 }
-
 Install-ChocolateyPackage @packageArgs

@@ -23,17 +23,30 @@ export const Primary: Story = {
 - list1
 - list2
 - list3
-*bold*
-**italic**
+
+
+*italic*
+
+**bold**
+
 \`\`\`
-code
+code block
 \`\`\`
+
 \`\`\`c
 #include
 int main(){
     printf("hello world");
 }
-\`\`\``,
+\`\`\`
+\`code\`
+\`code\`
+
+return
+
+return
+`,
+
             created_at: new Date(),
             updated_at: new Date(),
             tags: ["tag1"]
