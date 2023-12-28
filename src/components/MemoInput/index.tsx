@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { insertIndent } from "@/lib/editor";
 import { useMemoText } from "@/hooks/useMemoText";
 import { useNotification } from "@/hooks/useNotification";
-import { useSaveMemo } from "./saveMemo";
+import { useSaveMemo } from "@/hooks/useSaveMemo";
 import { useConfigFile } from "@/hooks/useConfigFile";
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 
 export const MemoInput: FC<Props> = React.memo(({ id }) => {
     const queryClient = useQueryClient();
-    const [text, setText] = useMemoText();
+    const [text, setText] = useMemoText(id);
     const { pushErrorNotification } = useNotification();
     const saveMemo = useSaveMemo();
     const [config] = useConfigFile();

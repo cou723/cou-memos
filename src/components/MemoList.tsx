@@ -12,22 +12,17 @@ type Props = {
 
 export const MemoList: FC<Props> = React.memo(({ searchQuery, onEdit, onDelete, className }: Props) => {
     const { isLoading, isError, data: memos } = useMemoList(searchQuery);
+    if (isLoading) return <div>loading...</div>;
+    if (isError) return <div>error...</div>;
+    if (memos === undefined) return <>return data is empty</>;
 
     return (
         <div>
-            {isLoading ? (
-                <div>loading...</div>
-            ) : isError ? (
-                <div>error...</div>
-            ) : memos === undefined ? (
-                <>return data is empty</>
-            ) : (
-                memos?.map((memo) => (
-                    <div className={className} key={memo.id}>
-                        <MemoView memo={memo} onEdit={onEdit} onDelete={onDelete} />
-                    </div>
-                ))
-            )}
+            {memos?.map((memo) => (
+                <div className={className} key={memo.id}>
+                    <MemoView memo={memo} onEdit={onEdit} onDelete={onDelete} />
+                </div>
+            ))}
         </div>
     );
 });
