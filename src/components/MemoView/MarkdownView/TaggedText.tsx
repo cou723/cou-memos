@@ -8,7 +8,7 @@ function isTag(text: string): boolean {
 
 type Props = { text: string };
 
-export const PWithTag: FC<Props> = React.memo(({ text }) => {
+export const TaggedText: FC<Props> = React.memo(({ text }) => {
     const elements: JSX.Element[] = [];
 
     const texts = splitTags(text);
@@ -19,10 +19,10 @@ export const PWithTag: FC<Props> = React.memo(({ text }) => {
             elements.push(<Tag text={text.text} key={index} />);
         } else {
             elements.push(
-                <>
+                <p key={index + text.text}>
                     {text.before != null ? text.before == "\n" ? <br /> : text.before : ""}
                     {text.text}
-                </>
+                </p>
             );
         }
     }
