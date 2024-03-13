@@ -17,8 +17,6 @@ export const ConfigPage: FC<{}> = React.memo(() => {
         setConfig({ ...config, is_show_save_button: e.target.checked });
     };
 
-    console.log(config);
-
     return (
         <>
             <Button

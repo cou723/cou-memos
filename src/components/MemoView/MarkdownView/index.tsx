@@ -8,7 +8,6 @@ import { CodeComponent } from "react-markdown/lib/ast-to-react";
 type Props = { text: string };
 
 export const MarkdownView: FC<Props> = React.memo(({ text }) => {
-    console.log("render :", text);
     return (
         <ReactMarkdown
             components={{
@@ -35,8 +34,6 @@ function taggedText({ children }: { children: React.ReactNode[] }) {
 
 // コードブロックの場合既存の言語の場合はSyntaxHighlighterを使う
 const syntaxHighlightedCode: CodeComponent = ({ node, className, children, ...props }) => {
-    console.log("children", children);
-
     const match = /language-(\w+)/.exec(className || "");
     const isInlineCode = Array.isArray(children) && !(children[0]! as string).includes("\n");
     if (!isInlineCode) {

@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TaggedText > should render 1`] = `
+<DocumentFragment>
+  <p />
+  <div
+    aria-label="Badge"
+    class="badge mr-2 badge-neutral"
+  >
+    #tag
+  </div>
+  <p />
+</DocumentFragment>
+`;
