@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { MemoView } from "./MemoView";
+import { MemoView } from ".";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -45,6 +45,21 @@ int main(){
 return
 
 return
+`,
+
+            created_at: new Date(),
+            updated_at: new Date(),
+            tags: ["tag1"]
+        }
+    }
+};
+
+export const OneLine: Story = {
+    args: {
+        memo: {
+            id: 1,
+            text: `#Next.js
+最近は\`Next.js\`の\`AppRouter\`を勉強しています
 `,
 
             created_at: new Date(),

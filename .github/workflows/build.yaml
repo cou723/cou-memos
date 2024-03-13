@@ -5,6 +5,28 @@ on:
       - main
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 8.15.3
+
+      - name: install dependencies
+        run: |
+          pnpm i --frozen-lockfile
+      - name: "Test"
+        run: pnpm dlx vitest --coverage.enabled true
+
+      - name: Vitest Coverage Report
+        uses: davelosert/vitest-coverage-report-action@v2.2.1
+
   publish-tauri:
     permissions:
       contents: write

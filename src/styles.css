@@ -69,6 +69,7 @@
 .memo p{
     font-size: 1rem;
     line-height: 2rem;
+    display: inline;
 }
 
 .memo ol, .memo li, .memo ul, .memo blockquote{
@@ -100,4 +101,6 @@
     border: 1px solid var(--code-border-color);
     border-radius: 0.2rem;
     padding: 0.25rem;
+    margin-right: 0.2rem;
+    margin-left: 0.2rem;
 }
