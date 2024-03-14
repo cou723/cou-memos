@@ -1,6 +1,6 @@
 ﻿$ErrorActionPreference = 'Stop' # stop on all errors
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$Version    = "1.2.5"
+$Version    = "1.2.6"
 $url64      = "https://github.com/cou723/cou-memos/releases/download/cou-memos-v"+$Version+"/cou-memos_"+$Version+"_x64_en-US.msi"
 
 $packageArgs = @{
