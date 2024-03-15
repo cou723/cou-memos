@@ -1,0 +1,364 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MarkdownView multiple elements > h1, h2, h3, p, list, inline code, code 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <p />
+    <div
+      aria-label="Badge"
+      class="badge mr-2 badge-neutral"
+    >
+      #tag1
+    </div>
+     text
+    <p />
+    
+
+    <h1>
+      heading 1
+    </h1>
+    
+
+    <h2>
+      heading 2
+    </h2>
+    
+
+    <h3>
+      heading 3
+    </h3>
+    
+
+    <ul>
+      
+
+      <li>
+        list1
+      </li>
+      
+
+      <li>
+        list2
+      </li>
+      
+
+      <li>
+        list3
+      </li>
+      
+
+    </ul>
+    
+
+    <code
+      class="inline-code"
+    >
+      code
+    </code>
+    
+
+    <pre>
+      <div
+        style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: .5em 0px; overflow: auto; border-radius: 0.3em; background: rgb(29, 31, 33);"
+      >
+        <code
+          class="language-js"
+          style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none;"
+        >
+          <span
+            class="token console"
+            style="color: rgb(255, 255, 182); text-decoration: underline;"
+          >
+            console
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            .
+          </span>
+          <span
+            class="token method property-access"
+            style="color: rgb(218, 208, 133);"
+          >
+            log
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            (
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            )
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            ;
+          </span>
+        </code>
+      </div>
+    </pre>
+    
+
+    <pre>
+      <div
+        style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: .5em 0px; overflow: auto; border-radius: 0.3em; background: rgb(29, 31, 33);"
+      >
+        <code
+          style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none;"
+        >
+          <span>
+            normal code
+          </span>
+        </code>
+      </div>
+    </pre>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MarkdownView multiple elements > p, inline code, p 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <p>
+      p1
+    </p>
+    <code
+      class="inline-code"
+    >
+      code
+    </code>
+    <p>
+      p2
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MarkdownView single element > code 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <pre>
+      <div
+        style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: .5em 0px; overflow: auto; border-radius: 0.3em; background: rgb(29, 31, 33);"
+      >
+        <code
+          class="language-c"
+          style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none;"
+        >
+          <span
+            class="token macro directive-hash"
+            style="color: rgb(150, 203, 254);"
+          >
+            #
+          </span>
+          <span
+            class="token macro directive"
+            style="color: rgb(150, 203, 254);"
+          >
+            include
+          </span>
+          <span>
+            
+
+          </span>
+          <span />
+          <span
+            class="token"
+            style="color: rgb(150, 203, 254);"
+          >
+            int
+          </span>
+          <span>
+             
+          </span>
+          <span
+            class="token"
+            style="color: rgb(218, 208, 133);"
+          >
+            main
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            (
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            )
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            {
+          </span>
+          <span>
+            
+
+          </span>
+          <span>
+                
+          </span>
+          <span
+            class="token"
+            style="color: rgb(218, 208, 133);"
+          >
+            printf
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            (
+          </span>
+          <span
+            class="token"
+            style="color: rgb(168, 255, 96);"
+          >
+            "hello world"
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            )
+          </span>
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            ;
+          </span>
+          <span>
+            
+
+          </span>
+          <span />
+          <span
+            class="token"
+            style="color: rgb(197, 200, 198);"
+          >
+            }
+          </span>
+          <span>
+            
+
+          </span>
+        </code>
+      </div>
+    </pre>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MarkdownView single element > h1 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <h1>
+      Hello
+    </h1>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MarkdownView single element > h2 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <h2>
+      Hello
+    </h2>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MarkdownView single element > h3 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <h3>
+      Hello
+    </h3>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MarkdownView single element > inline code 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <code
+      class="inline-code"
+    >
+      Hello
+    </code>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MarkdownView single element > list 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <ul>
+      
+
+      <li>
+        list1
+      </li>
+      
+
+      <li>
+        list2
+      </li>
+      
+
+      <li>
+        list3
+      </li>
+      
+
+    </ul>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MarkdownView single element > p 1`] = `
+<DocumentFragment>
+  <div
+    class="memo"
+  >
+    <p />
+    <div
+      aria-label="Badge"
+      class="badge mr-2 badge-neutral"
+    >
+      #tag1
+    </div>
+     text
+    <p />
+  </div>
+</DocumentFragment>
+`;
