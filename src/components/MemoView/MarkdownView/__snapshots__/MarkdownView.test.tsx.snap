@@ -5,15 +5,15 @@ exports[`MarkdownView multiple elements > h1, h2, h3, p, list, inline code, code
   <div
     class="memo"
   >
-    <p />
     <div
       aria-label="Badge"
-      class="badge mr-2 badge-neutral"
+      class="badge mr-2 block badge-neutral"
     >
       #tag1
     </div>
-     text
-    <p />
+    <p>
+      text
+    </p>
     
 
     <h1>
@@ -131,7 +131,7 @@ exports[`MarkdownView multiple elements > p, inline code, p 1`] = `
     class="memo"
   >
     <p>
-      p1
+      p1 
     </p>
     <code
       class="inline-code"
@@ -139,7 +139,7 @@ exports[`MarkdownView multiple elements > p, inline code, p 1`] = `
       code
     </code>
     <p>
-      p2
+       p2
     </p>
   </div>
 </DocumentFragment>
@@ -350,15 +350,15 @@ exports[`MarkdownView single element > p 1`] = `
   <div
     class="memo"
   >
-    <p />
     <div
       aria-label="Badge"
-      class="badge mr-2 badge-neutral"
+      class="badge mr-2 block badge-neutral"
     >
       #tag1
     </div>
-     text
-    <p />
+    <p>
+      text
+    </p>
   </div>
 </DocumentFragment>
 `;

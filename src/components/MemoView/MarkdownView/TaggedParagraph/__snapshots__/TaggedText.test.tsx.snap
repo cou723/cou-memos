@@ -5,7 +5,7 @@ exports[`TaggedText > should render 1`] = `
   <p />
   <div
     aria-label="Badge"
-    class="badge mr-2 badge-neutral"
+    class="badge mr-2 block badge-neutral"
   >
     #tag
   </div>

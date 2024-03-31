@@ -34,8 +34,6 @@ export const MemoInput: FC<Props> = React.memo(({ id }) => {
         setText("");
     };
 
-    console.log("is shown save button :", config.is_show_save_button);
-
     const handleKeyDown = useCallback(
         (event: React.KeyboardEvent) => {
             if (event.ctrlKey && event.key === "Enter") onSave();

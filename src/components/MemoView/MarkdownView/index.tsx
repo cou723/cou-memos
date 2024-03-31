@@ -4,15 +4,20 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { TaggedParagraph } from "./TaggedParagraph";
 import { CodeComponent } from "react-markdown/lib/ast-to-react";
+import { Tag } from "@/components/MemoView/MarkdownView/Text/Tag";
+import { ReactElement } from "react-markdown/lib/react-markdown";
+import { parseTagAndParagraph } from "../../../lib/parseTagAndParagraph";
 
 type Props = { text: string };
-
+/*
+いろいろ試した感じ、unifiedなどを使ってがっつり変換するのはunifiedのエコシステム周りがまだかなり型安全ではない状態なので、あくまでReactMarkdownのcomponents propsをつかってできる範囲でやるのがよさそう。
+ */
 export const MarkdownView: FC<Props> = React.memo(({ text }) => {
     return (
         <ReactMarkdown
             components={{
                 code: syntaxHighlightedCode,
-                p: taggedText
+                p: tagOrParagraph
             }}
             className="memo"
         >
@@ -22,15 +27,32 @@ export const MarkdownView: FC<Props> = React.memo(({ text }) => {
 });
 
 // タグの場合はTaggedTextを使う
-function taggedText({ children }: { children: React.ReactNode[] }) {
-    const result: React.ReactNode[] = [];
+function tagOrParagraph({ children }: { children: React.ReactNode }) {
+    const elements: ReactElement[] = [];
+    if (children == null) return null;
+    if (!(children instanceof Array)) return <>{children}</>;
+    if (children.length == 0) return null;
+    console.log(children);
+
     for (const child of children) {
-        if (typeof child === "string" || typeof child == "number" || typeof child == "boolean")
-            result.push(<TaggedParagraph text={child.toString()} />);
-        else result.push(child);
+        if (typeof child === "string") {
+            const parsed = parseTagAndParagraph(child);
+            for (const [index, content] of parsed.entries()) {
+                if (content.startsWith("#")) {
+                    elements.push(<Tag text={content} key={index} />);
+                } else {
+                    elements.push(<p key={index}>{content}</p>);
+                }
+            }
+        } else {
+            elements.push(child);
+        }
     }
-    return <>{result}</>;
+
+    return <>{elements.map((element) => element)}</>;
 }
+
+export type Character = string;
 
 // コードブロックの場合既存の言語の場合はSyntaxHighlighterを使う
 const syntaxHighlightedCode: CodeComponent = ({ node, className, children, ...props }) => {

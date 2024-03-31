@@ -14,7 +14,6 @@ export function useConfigFile(): [Config, React.Dispatch<React.SetStateAction<Co
                 pushErrorNotification("設定ファイルの読み込みに失敗しました" + config.val);
                 return;
             }
-            console.log("load config :", config.val);
             setConfig(config.val);
         };
         fetchConfig();

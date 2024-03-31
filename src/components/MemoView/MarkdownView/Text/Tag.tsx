@@ -5,7 +5,7 @@ type Props = { text: string };
 
 export const Tag: FC<Props> = React.memo(({ text }) => {
     return (
-        <Badge color="neutral" className="mr-2">
+        <Badge color="neutral" className="mr-2 block">
             {text}
         </Badge>
     );

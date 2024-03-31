@@ -15,7 +15,6 @@ export const TaggedParagraph: FC<Props> = React.memo(({ text }) => {
 
     for (const [index, content] of texts.entries()) {
         if (isTag(content.text)) {
-            console.log("set key:", index);
             elements.push(<Tag text={content.text} key={index} />);
         } else {
             elements.push(
