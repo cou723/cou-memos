@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const MemoStructSchema = z.object({
+export const MemoStructSchema = z.object({
     id: z.number(),
     content: z.string(),
     created_at: z.string(),

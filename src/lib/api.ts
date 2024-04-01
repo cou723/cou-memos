@@ -8,7 +8,7 @@ import type { Config } from "@/types/config";
 import type { Result } from "ts-results";
 
 import { isConfig } from "@/types/config";
-import { Memo, isMemoStruct } from "@/types/memo";
+import { Memo, MemoStructSchema, isMemoStruct } from "@/types/memo";
 
 export class api {
     static async edit_memo(text: string, id: number): Promise<Result<void, ApiError>> {
@@ -50,10 +50,13 @@ export class api {
 
     static async get_memo_list(searchQuery: string[]): Promise<Result<Memo[], ApiError | "ReturnIsInvalid">> {
         try {
-            const result = await invoke("get_memo_list", { searchQuery });
-            if (typeof result === "object" && result instanceof Array && result.every(isMemoStruct))
-                return Ok(result.map((memo) => new Memo(memo)));
-            else return Err("ReturnIsInvalid");
+            const data = await invoke("get_memo_list", { searchQuery });
+            const parseResult = MemoStructSchema.array().safeParse(data);
+            if (parseResult.success) return Ok(parseResult.data.map((memo) => new Memo(memo)));
+            else {
+                console.error(parseResult.error);
+                return Err("ReturnIsInvalid");
+            }
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError: " + e);
         }
