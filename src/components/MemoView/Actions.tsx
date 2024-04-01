@@ -18,10 +18,10 @@ export const Actions: FC<Props> = React.memo(({ memo, handleDelete, handleEdit }
         <Card.Actions className="justify-between items-end">
             <span className="align-text-bottom h-full">{memo.updated_at.toISOString()}</span>
             <Join>
-                <Button onClick={handleDelete} className="join-item px-3">
+                <Button onClick={handleDelete} className="px-3">
                     <HiTrash className="text-xl" />
                 </Button>
-                <Button onClick={handleEdit} className="join-item px-3">
+                <Button onClick={handleEdit} className="px-3">
                     <HiPencilAlt className="text-xl" />
                 </Button>
             </Join>

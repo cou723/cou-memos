@@ -1,3 +1,13 @@
+import { z } from "zod";
+
+const MemoStructSchema = z.object({
+    id: z.number(),
+    content: z.string(),
+    created_at: z.string(),
+    updated_at: z.string(),
+    tags: z.string().array()
+}) satisfies z.ZodType<MemoStruct>;
+
 type MemoStruct = {
     id: number;
     content: string;
@@ -7,18 +17,16 @@ type MemoStruct = {
 };
 
 export function isMemoStruct(obj: unknown): obj is MemoStruct {
-    return (
-        typeof obj === "object" &&
-        "id" in obj &&
-        "content" in obj &&
-        "created_at" in obj &&
-        "updated_at" in obj &&
-        typeof obj.id === "number" &&
-        typeof obj.content === "string" &&
-        typeof obj.created_at === "string" &&
-        typeof obj.updated_at === "string"
-    );
+    return MemoStructSchema.safeParse(obj).success;
 }
+
+const MemoSchema = z.object({
+    id: z.number(),
+    text: z.string(),
+    created_at: z.date(),
+    updated_at: z.date(),
+    tags: z.string().array()
+}) satisfies z.ZodType<Memo>;
 
 export class Memo {
     id: number;
@@ -36,15 +44,5 @@ export class Memo {
     }
 }
 export function isMemo(obj: unknown): obj is Memo {
-    return (
-        typeof obj === "object" &&
-        "id" in obj &&
-        "text" in obj &&
-        "created_at" in obj &&
-        "updated_at" in obj &&
-        typeof obj.id === "number" &&
-        typeof obj.text === "string" &&
-        obj.created_at instanceof Date &&
-        obj.updated_at instanceof Date
-    );
+    return MemoSchema.safeParse(obj).success;
 }

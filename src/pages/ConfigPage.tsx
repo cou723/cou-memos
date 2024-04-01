@@ -34,8 +34,8 @@ export const ConfigPage: FC = React.memo(() => {
                 <HiOutlineChevronDoubleLeft className="text-xl" />
             </Button>
             <div className="w-3/4 m-auto mt-10">
-                <label className="label">
-                    <span className="label-text">データファイル保存場所</span>
+                <label>
+                    <span>データファイル保存場所</span>
                 </label>
                 <div className="flex ">
                     <Input value={config.data_path} onInput={handleDbPathChange} bordered className="w-full mr-3" />{" "}

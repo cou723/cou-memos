@@ -54,6 +54,7 @@ exports[`MarkdownView multiple elements > h1, h2, h3, p, list, inline code, code
 
     <code
       class="inline-code"
+      node="[object Object]"
     >
       code
     </code>
@@ -61,6 +62,7 @@ exports[`MarkdownView multiple elements > h1, h2, h3, p, list, inline code, code
 
     <pre>
       <div
+        node="[object Object]"
         style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: .5em 0px; overflow: auto; border-radius: 0.3em; background: rgb(29, 31, 33);"
       >
         <code
@@ -110,6 +112,7 @@ exports[`MarkdownView multiple elements > h1, h2, h3, p, list, inline code, code
 
     <pre>
       <div
+        node="[object Object]"
         style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: .5em 0px; overflow: auto; border-radius: 0.3em; background: rgb(29, 31, 33);"
       >
         <code
@@ -135,6 +138,7 @@ exports[`MarkdownView multiple elements > p, inline code, p 1`] = `
     </p>
     <code
       class="inline-code"
+      node="[object Object]"
     >
       code
     </code>
@@ -152,6 +156,7 @@ exports[`MarkdownView single element > code 1`] = `
   >
     <pre>
       <div
+        node="[object Object]"
         style="color: rgb(197, 200, 198); text-shadow: 0 1px rgba(0, 0, 0, 0.3); font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace; direction: ltr; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: .5em 0px; overflow: auto; border-radius: 0.3em; background: rgb(29, 31, 33);"
       >
         <code
@@ -310,6 +315,7 @@ exports[`MarkdownView single element > inline code 1`] = `
   >
     <code
       class="inline-code"
+      node="[object Object]"
     >
       Hello
     </code>

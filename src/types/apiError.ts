@@ -16,6 +16,6 @@ const apiErrorList = [
 
 export type ApiError = (typeof apiErrorList)[number];
 
-export function isApiError(e: any): e is ApiError {
+export function isApiError(e: unknown): e is ApiError {
     return typeof e === "string" && apiErrorList.includes(e);
 }
