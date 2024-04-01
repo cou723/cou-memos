@@ -1,11 +1,15 @@
 import { z } from "zod";
 
+import type { Tag } from "@/types/tag";
+
+import { TagSchema } from "@/types/tag";
+
 export const MemoStructSchema = z.object({
     id: z.number(),
     content: z.string(),
     created_at: z.string(),
     updated_at: z.string(),
-    tags: z.string().array()
+    tags: TagSchema.array()
 }) satisfies z.ZodType<MemoStruct>;
 
 type MemoStruct = {
@@ -13,7 +17,7 @@ type MemoStruct = {
     content: string;
     created_at: string;
     updated_at: string;
-    tags: string[];
+    tags: Tag[];
 };
 
 export function isMemoStruct(obj: unknown): obj is MemoStruct {
@@ -40,7 +44,7 @@ export class Memo {
         this.text = memo.content;
         this.created_at = new Date(memo.created_at);
         this.updated_at = new Date(memo.updated_at);
-        this.tags = memo.tags;
+        this.tags = memo.tags.map((t) => t.content);
     }
 }
 export function isMemo(obj: unknown): obj is Memo {
