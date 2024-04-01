@@ -20,7 +20,8 @@ export function useMemoText(id?: number): [string, React.Dispatch<React.SetState
             }
             setText(getOneResult.val.text);
         })();
-    }, [id, pushErrorNotification]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
 
     return [text, setText];
 }
