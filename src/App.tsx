@@ -1,12 +1,15 @@
-import { IndexPage } from "./pages/IndexPage";
-import { ConfigPage } from "./pages/ConfigPage";
+import type { FC } from "react";
+import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { FC, useContext } from "react";
-import { NotificationStack } from "./providers/NotificationProvider";
-import { Alert, Button, Toast } from "react-daisyui";
-import { useNotification } from "./hooks/useNotification";
 
-const App: FC<{}> = () => {
+import { Alert, Button, Toast } from "react-daisyui";
+
+import { useNotification } from "./hooks/useNotification";
+import { ConfigPage } from "./pages/ConfigPage";
+import { IndexPage } from "./pages/IndexPage";
+import { NotificationStack } from "./providers/NotificationProvider";
+
+const App: FC = () => {
     const { state } = useContext(NotificationStack);
     const { closeNotification } = useNotification();
 

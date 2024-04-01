@@ -1,8 +1,10 @@
-import { Result } from "ts-results";
+
 import { api } from "./api";
-import { ApiError } from "@/types/apiError";
-import { Memo } from "@/types/memo";
-import { SearchQuery } from "@/types/searchQuery";
+
+import type { ApiError } from "@/types/apiError";
+import type { Memo } from "@/types/memo";
+import type { SearchQuery } from "@/types/searchQuery";
+import type { Result } from "ts-results";
 
 export class MemoDB {
     static async post(text: string, id?: number): Promise<Result<void, ApiError>> {

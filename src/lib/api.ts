@@ -1,13 +1,19 @@
 import { invoke } from "@tauri-apps/api";
-import { Ok, Err, Result } from "ts-results";
-import { ApiError, isApiError } from "../types/apiError";
+import { Ok, Err } from "ts-results";
+
+import { isApiError } from "../types/apiError";
+
+import type { ApiError } from "../types/apiError";
+import type { Config } from "@/types/config";
+import type { Result } from "ts-results";
+
+import { isConfig } from "@/types/config";
 import { Memo, isMemoStruct } from "@/types/memo";
-import { Config, isConfig } from "@/types/config";
 
 export class api {
     static async edit_memo(text: string, id: number): Promise<Result<void, ApiError>> {
         try {
-            await invoke("edit_memo", { text, id });
+            await invoke("edit_memo", { id, text });
             return Ok.EMPTY;
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError");

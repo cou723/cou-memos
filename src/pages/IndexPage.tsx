@@ -1,15 +1,19 @@
-import React, { FC, useState } from "react";
+import type { FC } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "react-daisyui";
+import { HiAdjustments } from "react-icons/hi";
+
 import { MemoInput } from "../components/MemoInput";
 import { MemoList } from "../components/MemoList";
 import { MemoDB } from "../lib/memo";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "react-daisyui";
-import { useNavigate } from "react-router-dom";
-import { HiAdjustments } from "react-icons/hi";
+
 import { MemoSearchBox } from "@/components/MemoSearchBox";
 import { useNotification } from "@/hooks/useNotification";
 
-export const IndexPage: FC<{}> = React.memo(() => {
+export const IndexPage: FC = React.memo(function IndexPageUnMemo() {
     const [id, setId] = useState<number | undefined>(undefined);
     const [searchQuery, setSearchQuery] = useState<string[]>([]);
     const queryClient = useQueryClient();
@@ -23,8 +27,8 @@ export const IndexPage: FC<{}> = React.memo(() => {
             if (result.err) pushErrorNotification("メモの削除に失敗しました");
         },
         {
-            onSuccess: () => {
-                queryClient.invalidateQueries(["memos"]);
+            onSuccess: async () => {
+                await queryClient.invalidateQueries(["memos"]);
             }
         }
     );

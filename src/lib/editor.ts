@@ -1,5 +1,8 @@
-import React from "react";
-import { Err, Ok, Result } from "ts-results";
+import type React from "react";
+
+import { Err, Ok } from "ts-results";
+
+import type { Result } from "ts-results";
 
 export function insertIndent(
     text: string,

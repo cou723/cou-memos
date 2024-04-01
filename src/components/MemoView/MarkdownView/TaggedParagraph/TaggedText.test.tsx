@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 // @vitest-environment jsdom
 
-import { TaggedParagraph } from ".";
 import { cleanup, render } from "@testing-library/react";
 import { describe, afterEach, it, expect } from "vitest";
+
+import { TaggedParagraph } from ".";
 
 describe("TaggedText", () => {
     afterEach(cleanup);

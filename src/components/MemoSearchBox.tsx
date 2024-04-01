@@ -1,4 +1,6 @@
-import React, { FC } from "react";
+import type { FC } from "react";
+import React from "react";
+
 import { Input } from "react-daisyui";
 
 type Props = {
@@ -7,6 +9,7 @@ type Props = {
     className: string;
 };
 
+// eslint-disable-next-line react/display-name
 export const MemoSearchBox: FC<Props> = React.memo(({ searchTags, setSearchTags, className }: Props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tags = e.target.value;

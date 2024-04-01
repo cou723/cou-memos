@@ -1,5 +1,8 @@
-import React, { FC } from "react";
+import type { FC } from "react";
+import React from "react";
+
 import { Tag } from "../Text/Tag";
+
 import { splitTags } from "@/lib/extractTag";
 
 function isTag(text: string): boolean {
@@ -8,6 +11,7 @@ function isTag(text: string): boolean {
 
 type Props = { text: string };
 
+// eslint-disable-next-line react/display-name
 export const TaggedParagraph: FC<Props> = React.memo(({ text }) => {
     const elements: JSX.Element[] = [];
 

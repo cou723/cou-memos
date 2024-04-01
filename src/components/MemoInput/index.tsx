@@ -1,16 +1,20 @@
-import React, { FC, useCallback } from "react";
-import { Button, Textarea } from "react-daisyui";
+import type { FC } from "react";
+import React, { useCallback } from "react";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { insertIndent } from "@/lib/editor";
+import { Button, Textarea } from "react-daisyui";
+
+import { useConfigFile } from "@/hooks/useConfigFile";
 import { useMemoText } from "@/hooks/useMemoText";
 import { useNotification } from "@/hooks/useNotification";
 import { useSaveMemo } from "@/hooks/useSaveMemo";
-import { useConfigFile } from "@/hooks/useConfigFile";
+import { insertIndent } from "@/lib/editor";
 
 type Props = {
     id?: number;
 };
 
+// eslint-disable-next-line react/display-name
 export const MemoInput: FC<Props> = React.memo(({ id }) => {
     const queryClient = useQueryClient();
     const [text, setText] = useMemoText(id);
@@ -29,21 +33,21 @@ export const MemoInput: FC<Props> = React.memo(({ id }) => {
         setText(event.target.value);
     };
 
-    const onSave = async () => {
+    const onSave = useCallback(async () => {
         mutation.mutate({ text, id });
         setText("");
-    };
+    }, [id, mutation, text, setText]);
 
     const handleKeyDown = useCallback(
-        (event: React.KeyboardEvent) => {
-            if (event.ctrlKey && event.key === "Enter") onSave();
+        async (event: React.KeyboardEvent) => {
+            if (event.ctrlKey && event.key === "Enter") await onSave();
             if (event.key === "Tab") {
                 event.preventDefault();
                 const result = insertIndent(text, setText, event);
                 if (result.err) pushErrorNotification("インサートに失敗しました");
             }
         },
-        [onSave]
+        [onSave, pushErrorNotification, setText, text]
     );
 
     return (

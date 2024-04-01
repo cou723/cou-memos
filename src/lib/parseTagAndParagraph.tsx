@@ -1,9 +1,9 @@
-import { Character } from "@/components/MemoView/MarkdownView";
+import type { Character } from "@/components/MemoView/MarkdownView";
 
 export function parseTagAndParagraph(text: string): string[] {
     let readingState: "paragraph" | "tag" = "paragraph";
     let buf: Character[] = [];
-    let result: string[] = [];
+    const result: string[] = [];
     const target: Character[] = text.split("");
 
     const commitBuffer = () => {

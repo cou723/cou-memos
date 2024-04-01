@@ -1,5 +1,9 @@
-import { NotificationStack, NotificationType } from "@/providers/NotificationProvider";
 import { useContext } from "react";
+
+import type { NotificationType } from "@/providers/NotificationProvider";
+
+import { NotificationStack } from "@/providers/NotificationProvider";
+
 
 export const useNotification = () => {
     const { dispatch } = useContext(NotificationStack);

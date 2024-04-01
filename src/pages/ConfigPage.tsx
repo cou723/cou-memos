@@ -1,11 +1,15 @@
-import { useConfigFile } from "@/hooks/useConfigFile";
-import { api } from "@/lib/api";
-import React, { FC } from "react";
-import { Button, Checkbox, Form, Input } from "react-daisyui";
-import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
+import type { FC } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const ConfigPage: FC<{}> = React.memo(() => {
+import { Button, Checkbox, Form, Input } from "react-daisyui";
+import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
+
+import { useConfigFile } from "@/hooks/useConfigFile";
+import { api } from "@/lib/api";
+
+// eslint-disable-next-line react/display-name
+export const ConfigPage: FC = React.memo(() => {
     const [config, setConfig] = useConfigFile();
     const nav = useNavigate();
 

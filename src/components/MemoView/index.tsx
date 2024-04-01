@@ -1,9 +1,12 @@
+import type { FC } from "react";
+import React from "react";
+
 import { Card } from "react-daisyui";
+
 import { Actions } from "./Actions";
 import { MarkdownView } from "./MarkdownView";
-import { Memo } from "@/types/memo";
-import { FC } from "react";
-import React from "react";
+
+import type { Memo } from "@/types/memo";
 
 type Props = {
     memo: Memo;
@@ -11,6 +14,7 @@ type Props = {
     onDelete: (id: number) => void;
 };
 
+// eslint-disable-next-line react/display-name
 export const MemoView: FC<Props> = React.memo(({ memo, onEdit, onDelete }: Props) => {
     const handleEdit = () => onEdit(memo.id);
     const handleDelete = () => onDelete(memo.id);

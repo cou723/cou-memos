@@ -1,9 +1,10 @@
-import React, { useReducer, createContext, Dispatch } from "react";
+import type { Dispatch } from "react";
+import React, { useReducer, createContext } from "react";
 
 type State = Notification[];
 type Action = { type: "push"; notification: Notification } | { type: "close"; index: number };
 export type NotificationType = "info" | "success" | "warning" | "error";
-export type Notification = {
+type Notification = {
     message: string;
     type: NotificationType;
 };
@@ -15,8 +16,7 @@ function reducer(state: State, action: Action): State {
         case "push":
             return [...state, action.notification];
         case "close":
-            var _state = [...state];
-            return _state.filter((_value, index) => index !== action.index);
+            return state.filter((_value, index) => index !== action.index);
         default:
             return state;
     }

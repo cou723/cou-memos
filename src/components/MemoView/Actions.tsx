@@ -1,7 +1,10 @@
-import { Memo } from "@/types/memo";
-import React, { FC } from "react";
+import type { FC } from "react";
+import React from "react";
+
 import { Card, Join, Button } from "react-daisyui";
 import { HiTrash, HiPencilAlt } from "react-icons/hi";
+
+import type { Memo } from "@/types/memo";
 
 type Props = {
     memo: Memo;
@@ -9,6 +12,7 @@ type Props = {
     handleEdit: () => void;
 };
 
+// eslint-disable-next-line react/display-name
 export const Actions: FC<Props> = React.memo(({ memo, handleDelete, handleEdit }: Props) => {
     return (
         <Card.Actions className="justify-between items-end">

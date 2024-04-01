@@ -1,4 +1,4 @@
-export const apiErrorList = [
+const apiErrorList = [
     "DbInvalidArgs",
     "DbNotFound",
     "DbOpenFailed",

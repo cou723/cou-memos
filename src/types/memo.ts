@@ -1,4 +1,4 @@
-export type MemoStruct = {
+type MemoStruct = {
     id: number;
     content: string;
     created_at: string;
@@ -6,7 +6,7 @@ export type MemoStruct = {
     tags: string[];
 };
 
-export function isMemoStruct(obj: any): obj is MemoStruct {
+export function isMemoStruct(obj: unknown): obj is MemoStruct {
     return (
         typeof obj === "object" &&
         "id" in obj &&
@@ -35,7 +35,7 @@ export class Memo {
         this.tags = memo.tags;
     }
 }
-export function isMemo(obj: any): obj is Memo {
+export function isMemo(obj: unknown): obj is Memo {
     return (
         typeof obj === "object" &&
         "id" in obj &&

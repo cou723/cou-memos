@@ -1,11 +1,13 @@
+import { useContext } from "react";
+
+import { useQuery } from "@tanstack/react-query";
+
 import { MemoDB } from "@/lib/memo";
 import { NotificationStack } from "@/providers/NotificationProvider";
-import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
 
 async function fetchMemos({ queryKey }: any) {
     const [_key, searchQuery] = queryKey;
-    let getAllResult = await MemoDB.getAll(searchQuery);
+    const getAllResult = await MemoDB.getAll(searchQuery);
     if (getAllResult.ok) return getAllResult.val.reverse();
     if (getAllResult.err) {
         let message = "メモ一覧の取得に失敗しました";

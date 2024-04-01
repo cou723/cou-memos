@@ -1,5 +1,6 @@
-import { parseTagAndParagraph } from "@/lib/parseTagAndParagraph";
 import { describe, expect, it } from "vitest";
+
+import { parseTagAndParagraph } from "@/lib/parseTagAndParagraph";
 
 describe("parseTagAndParagraph", () => {
     it("should parse tag and paragraph", () => {
