@@ -106,13 +106,13 @@ fn get_memo(id: i32) -> Result<Memo, Error> {
 }
 
 #[tauri::command]
-fn get_memo_list(search_query: Vec<String>) -> Result<Vec<Memo>, Error> {
-    println!("call get_memo_list: {:?}", search_query);
+fn get_memo_list(search_tags: Vec<String>) -> Result<Vec<Memo>, Error> {
+    println!("call get_memo_list: {:?}", search_tags);
     let mut memos: Vec<entity::Memo> = Vec::new();
 
     let connection = establish_connection()?;
 
-    let memo_tags = db::memo::get_all(&connection, search_query)?;
+    let memo_tags = db::memo::get_all(&connection, search_tags)?;
 
     for memo_tag in memo_tags {
         if memos.iter().filter(|x| x.id == memo_tag.0.id).count() == 0 {

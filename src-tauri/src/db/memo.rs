@@ -83,13 +83,13 @@ pub fn get(conn: &SqliteConnection, id: i32) -> Result<Memo, Error> {
 
 pub fn get_all(
     conn: &SqliteConnection,
-    search_query: Vec<String>,
+    search_tags: Vec<String>,
 ) -> Result<Vec<(Memo, Option<Tag>)>, Error> {
     let table = memos::table
         .left_join(memo_tags::table.on(memos::id.eq(memo_tags::memo_id)))
         .left_join(tags::table.on(memo_tags::tag_id.eq(tags::id)));
 
-    if search_query.is_empty() {
+    if search_tags.is_empty() {
         table
             .select((memos::all_columns, tags::all_columns.nullable()))
             .load::<(Memo, Option<Tag>)>(conn)
@@ -97,7 +97,7 @@ pub fn get_all(
     } else {
         table
             .select((memos::all_columns, tags::all_columns.nullable()))
-            .filter(tags::content.eq_any(search_query))
+            .filter(tags::content.eq_any(search_tags))
             .load::<(Memo, Option<Tag>)>(conn)
             .map_err(|_e| Error::DbOperationFailed)
     }

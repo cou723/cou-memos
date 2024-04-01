@@ -1,4 +1,3 @@
-
 import { api } from "./api";
 
 import type { ApiError } from "@/types/apiError";
@@ -20,7 +19,7 @@ export class MemoDB {
         return await api.get_memo(id);
     }
 
-    static async getAll(searchQuery: SearchQuery): Promise<Result<Memo[], ApiError>> {
-        return await api.get_memo_list(searchQuery);
+    static async getAll(searchTags: SearchQuery): Promise<Result<Memo[], ApiError>> {
+        return await api.get_memo_list(searchTags);
     }
 }

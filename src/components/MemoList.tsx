@@ -6,15 +6,15 @@ import { MemoView } from "./MemoView";
 import { useMemoList } from "@/hooks/useMemoList";
 
 type Props = {
-    searchQuery: string[];
+    searchTags: string[];
     onEdit: (id: number) => void;
     onDelete: (id: number) => void;
     className: string;
 };
 
 // eslint-disable-next-line react/display-name
-export const MemoList: FC<Props> = React.memo(({ searchQuery, onEdit, onDelete, className }: Props) => {
-    const { isLoading, isError, data: memos } = useMemoList(searchQuery);
+export const MemoList: FC<Props> = React.memo(({ searchTags, onEdit, onDelete, className }: Props) => {
+    const { isLoading, isError, data: memos } = useMemoList(searchTags);
     if (isLoading) return <div>loading...</div>;
     if (isError) return <div>error...</div>;
     if (memos === undefined) return <>return data is empty</>;

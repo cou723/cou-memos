@@ -15,7 +15,7 @@ import { useNotification } from "@/hooks/useNotification";
 
 export const IndexPage: FC = React.memo(function IndexPageUnMemo() {
     const [id, setId] = useState<number | undefined>(undefined);
-    const [searchQuery, setSearchQuery] = useState<string[]>([]);
+    const [searchTags, setSearchQuery] = useState<string[]>([]);
     const queryClient = useQueryClient();
     const { pushErrorNotification } = useNotification();
 
@@ -46,8 +46,8 @@ export const IndexPage: FC = React.memo(function IndexPageUnMemo() {
                 <HiAdjustments className="text-xl" />
             </Button>
             <MemoInput id={id} />
-            <MemoSearchBox searchTags={searchQuery} setSearchTags={setSearchQuery} className="mt-3" />
-            <MemoList searchQuery={searchQuery} className="mt-3" onEdit={(id) => setId(id)} onDelete={handleDelete} />
+            <MemoSearchBox searchTags={searchTags} setSearchTags={setSearchQuery} className="mt-3" />
+            <MemoList searchTags={searchTags} className="mt-3" onEdit={(id) => setId(id)} onDelete={handleDelete} />
         </div>
     );
 });

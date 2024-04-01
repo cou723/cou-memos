@@ -39,18 +39,18 @@ function tagOrParagraph({ children }: { children: React.ReactNode }) {
     if (children.length == 0) return null;
     console.log(children);
 
-    for (const child of children) {
+    for (const [i, child] of children.entries()) {
         if (typeof child === "string") {
             const parsed = parseTagAndParagraph(child);
-            for (const [index, content] of parsed.entries()) {
+            for (const [j, content] of parsed.entries()) {
                 if (content.startsWith("#")) {
-                    elements.push(<Tag text={content} key={index} />);
+                    elements.push(<Tag text={content} key={i + "-" + j} />);
                 } else {
-                    elements.push(<p key={index}>{content}</p>);
+                    elements.push(<p key={i + "-" + j}>{content}</p>);
                 }
             }
         } else {
-            elements.push(child);
+            elements.push(React.cloneElement(child, { key: i }));
         }
     }
 
