@@ -80,7 +80,7 @@ fn add_memo(text: String) -> Result<(), Error> {
 fn edit_memo(text: String, id: i32) -> Result<(), Error> {
     println!("add_memo");
 
-    let tags = text.split(" ").filter(|x| x.starts_with("#")).collect();
+    let tags = extract_tags(&text);
 
     let connection = establish_connection()?;
     db::memo::update(&connection, id, &text, tags)

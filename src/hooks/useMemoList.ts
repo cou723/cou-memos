@@ -2,12 +2,10 @@ import { useContext } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import type { QueryFunction } from "@tanstack/react-query";
-
 import { MemoDB } from "@/lib/memo";
 import { NotificationStack } from "@/providers/NotificationProvider";
 
-const fetchMemos: QueryFunction = async ({ queryKey }) => {
+const fetchMemos = async ({ queryKey }) => {
     const [_key, searchQuery] = queryKey;
     const getAllResult = await MemoDB.getAll(searchQuery);
     if (getAllResult.ok) return getAllResult.val.reverse();

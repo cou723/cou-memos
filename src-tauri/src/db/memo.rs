@@ -52,14 +52,19 @@ pub fn delete(conn: &SqliteConnection, id: i32) -> Result<(), Error> {
     Ok(())
 }
 
-pub fn update(conn: &SqliteConnection, id: i32, text: &str, tags: Vec<&str>) -> Result<(), Error> {
+pub fn update(
+    conn: &SqliteConnection,
+    id: i32,
+    text: &str,
+    tags: Vec<String>,
+) -> Result<(), Error> {
     let result = diesel::update(memos::table.find(id))
         .set(memos::content.eq(text))
         .execute(conn)
         .map_err(|_| Error::DbInvalidArgs)?;
 
     for tag in tags {
-        db::memo_tag::add(conn, id, db::tag::get(conn, tag)?)?;
+        db::memo_tag::add(conn, id, db::tag::get(conn, tag.as_str())?)?;
     }
 
     if result == 0 {

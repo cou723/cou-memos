@@ -12,7 +12,6 @@ export function useMemoText(id?: number): [string, React.Dispatch<React.SetState
         if (id === undefined) return;
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         (async () => {
-            console.log("get memo text");
             const getOneResult = await MemoDB.get(id);
             if (getOneResult.err) {
                 pushErrorNotification("メモの取得に失敗しました");
@@ -20,6 +19,7 @@ export function useMemoText(id?: number): [string, React.Dispatch<React.SetState
             }
             setText(getOneResult.val.text);
         })();
+        // pushErrorNotificationを含むと無限ループになるため、eslint-disable-next-lineを使用
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
