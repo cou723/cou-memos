@@ -50,7 +50,7 @@ export class api {
 
     static async get_memo_list(searchTags: string[]): Promise<Result<Memo[], ApiError | "ReturnIsInvalid">> {
         try {
-            const data = await invoke("get_memo_list", { searchQuery: searchTags });
+            const data = await invoke("get_memo_list", { searchTags });
             const parseResult = MemoStructSchema.array().safeParse(data);
             if (parseResult.success) return Ok(parseResult.data.map((memo) => new Memo(memo)));
             else {
