@@ -3,7 +3,7 @@ use std::{
     io::Write,
 };
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, specta::Type)]
 pub struct Config {
     pub data_path: String,
     pub is_show_save_button: bool,

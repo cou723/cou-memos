@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::models;
 
-#[derive(Clone, Serialize, Deserialize, Debug)]
+#[derive(Clone, Serialize, Deserialize, Debug, specta::Type)]
 pub struct Memo {
     pub id: i32,
     pub content: String,

@@ -21,12 +21,9 @@ pub fn establish_connection() -> Result<SqliteConnection, Error> {
     let conn = match SqliteConnection::establish(&db_path) {
         Ok(v) => v,
         Err(_) => {
-            set_config(
-                "data_path".to_string(),
-                config::get_default_config().data_path,
-            )?;
-            SqliteConnection::establish(&config::get_default_config().data_path)
-                .map_err(|_| Error::DbNotFound)?
+            let default_data_path = config::get_default_config().data_path;
+            set_config("data_path".to_string(), default_data_path.clone())?;
+            SqliteConnection::establish(&default_data_path).map_err(|_| Error::DbNotFound)?
         }
     };
 

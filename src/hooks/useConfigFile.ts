@@ -20,7 +20,9 @@ export function useConfigFile(): [Config, React.Dispatch<React.SetStateAction<Co
             setConfig(config.val);
         };
         void fetchConfig();
-    }, [pushErrorNotification]);
+    // pushErrorNotificationを含むと無限ループになるため、eslint-disable-next-lineを使用
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
 
     return [config, setConfig];
 }

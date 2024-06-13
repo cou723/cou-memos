@@ -20,8 +20,10 @@ use config::Config;
 use db::establish_connection;
 use entity::Memo;
 use serde::{Deserialize, Serialize};
+use specta::collect_types;
 #[cfg(debug_assertions)]
 use tauri::Manager;
+use tauri_specta::ts;
 
 use crate::utils::extract_tags;
 
@@ -44,21 +46,25 @@ pub enum Error {
 }
 
 #[tauri::command]
+#[specta::specta]
 fn get_config() -> Result<Config, Error> {
     config::get()
 }
 
 #[tauri::command]
+#[specta::specta]
 fn set_config(key: String, value: String) -> Result<(), Error> {
     config::set(key, value)
 }
 
 #[tauri::command]
+#[specta::specta]
 fn save_config(config: Config) -> Result<(), Error> {
     config::set_all(config)
 }
 
 #[tauri::command]
+#[specta::specta]
 fn get_file_text(id: i32) -> Result<String, Error> {
     println!("get_file_memo");
 
@@ -67,6 +73,7 @@ fn get_file_text(id: i32) -> Result<String, Error> {
 }
 
 #[tauri::command]
+#[specta::specta]
 fn add_memo(text: String) -> Result<(), Error> {
     println!("add_memo");
 
@@ -77,6 +84,7 @@ fn add_memo(text: String) -> Result<(), Error> {
 }
 
 #[tauri::command]
+#[specta::specta]
 fn edit_memo(text: String, id: i32) -> Result<(), Error> {
     println!("add_memo");
 
@@ -87,6 +95,7 @@ fn edit_memo(text: String, id: i32) -> Result<(), Error> {
 }
 
 #[tauri::command]
+#[specta::specta]
 fn delete_memo(id: i32) -> Result<(), Error> {
     println!("delete_memo");
 
@@ -95,6 +104,7 @@ fn delete_memo(id: i32) -> Result<(), Error> {
 }
 
 #[tauri::command]
+#[specta::specta]
 fn get_memo(id: i32) -> Result<Memo, Error> {
     println!("get_memo :{}", id);
 
@@ -106,6 +116,7 @@ fn get_memo(id: i32) -> Result<Memo, Error> {
 }
 
 #[tauri::command]
+#[specta::specta]
 fn get_memo_list(search_tags: Vec<String>) -> Result<Vec<Memo>, Error> {
     println!("call get_memo_list: {:?}", search_tags);
     let mut memos: Vec<entity::Memo> = Vec::new();
@@ -142,6 +153,24 @@ fn get_memo_list(search_tags: Vec<String>) -> Result<Vec<Memo>, Error> {
 
 fn main() {
     println!("start");
+
+    #[cfg(debug_assertions)]
+    ts::export(
+        collect_types![
+            get_file_text,
+            edit_memo,
+            delete_memo,
+            get_memo,
+            get_memo_list,
+            add_memo,
+            get_config,
+            set_config,
+            save_config,
+        ],
+        "../src/bindings.ts",
+    )
+    .unwrap();
+
     match tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_file_text,

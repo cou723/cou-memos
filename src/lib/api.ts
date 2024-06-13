@@ -1,4 +1,3 @@
-import { invoke } from "@tauri-apps/api";
 import { Ok, Err } from "ts-results";
 
 import { isApiError } from "../types/apiError";
@@ -7,13 +6,14 @@ import type { ApiError } from "../types/apiError";
 import type { Config } from "@/types/config";
 import type { Result } from "ts-results";
 
+import { addMemo, deleteMemo, editMemo, getConfig, getMemo, getMemoList, saveConfig, setConfig } from "@/bindings";
 import { isConfig } from "@/types/config";
 import { Memo, MemoStructSchema, isMemoStruct } from "@/types/memo";
 
 export class api {
     static async edit_memo(text: string, id: number): Promise<Result<void, ApiError>> {
         try {
-            await invoke("edit_memo", { id, text });
+            await editMemo(text,id);
             return Ok.EMPTY;
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError");
@@ -22,7 +22,7 @@ export class api {
 
     static async add_memo(text: string): Promise<Result<void, ApiError>> {
         try {
-            await invoke("add_memo", { text });
+            await addMemo(text);
             return Ok.EMPTY;
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError");
@@ -31,7 +31,7 @@ export class api {
 
     static async delete_memo(id: number): Promise<Result<void, ApiError>> {
         try {
-            await invoke("delete_memo", { id });
+            await deleteMemo(id)
             return Ok.EMPTY;
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError");
@@ -40,7 +40,7 @@ export class api {
 
     static async get_memo(id: number): Promise<Result<Memo, ApiError | "ReturnIsInvalid">> {
         try {
-            const result = await invoke("get_memo", { id });
+            const result = await getMemo(id);
             if (isMemoStruct(result)) return Ok(new Memo(result));
             else return Err("ReturnIsInvalid");
         } catch (e) {
@@ -50,7 +50,7 @@ export class api {
 
     static async get_memo_list(searchTags: string[]): Promise<Result<Memo[], ApiError | "ReturnIsInvalid">> {
         try {
-            const data = await invoke("get_memo_list", { searchTags });
+            const data = await getMemoList(searchTags);
             const parseResult = MemoStructSchema.array().safeParse(data);
             if (parseResult.success) return Ok(parseResult.data.map((memo) => new Memo(memo)));
             else {
@@ -64,7 +64,7 @@ export class api {
 
     static async get_config(): Promise<Result<Config, ApiError>> {
         try {
-            const result = await invoke("get_config");
+            const result = getConfig()
             if (isConfig(result)) return Ok(result);
             else return Err("ReturnIsInvalid");
         } catch (e) {
@@ -74,7 +74,7 @@ export class api {
 
     static async set_config(key: string, value: string): Promise<Result<void, ApiError>> {
         try {
-            await invoke("set_config", { key, value });
+            await setConfig(key,value);
             return Ok.EMPTY;
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError");
@@ -83,7 +83,7 @@ export class api {
 
     static async save_config(config: Config): Promise<Result<void, ApiError>> {
         try {
-            await invoke("save_config", { config });
+            await saveConfig(config);
             return Ok.EMPTY;
         } catch (e) {
             return Err(isApiError(e) ? e : "UnknownError");
