@@ -1,27 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { useNotification } from "./useNotification";
+import { useQuery } from "@tanstack/react-query";
 
+import type { Memo } from "@/types/memo";
+
+import { useNotification } from "@/hooks/useNotification";
 import { MemoDB } from "@/lib/memo";
 
 export function useMemoText(id?: number): [string, React.Dispatch<React.SetStateAction<string>>] {
-    const [text, setText] = useState("");
     const { pushErrorNotification } = useNotification();
-
-    useEffect(() => {
-        if (id === undefined) return;
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        (async () => {
-            const getOneResult = await MemoDB.get(id);
-            if (getOneResult.err) {
-                pushErrorNotification("メモの取得に失敗しました");
-                return;
+    const queryResult = useQuery<Memo, Error>(
+        ["memo", id?.toString()],
+        async () => {
+            if (!id) throw new Error("Memo ID is undefined");
+            return (await MemoDB.get(id)).unwrap();
+        },
+        {
+            enabled: !!id,
+            onError: (error: Error) => {
+                pushErrorNotification("メモの取得に失敗しました" + error.message);
             }
-            setText(getOneResult.val.text);
-        })();
-        // pushErrorNotificationを含むと無限ループになるため、eslint-disable-next-lineを使用
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+        }
+    );
+
+    const [text, setText] = useState(queryResult && queryResult.data ? queryResult.data.text : "");
 
     return [text, setText];
 }

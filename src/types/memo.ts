@@ -1,36 +1,4 @@
-import { z } from "zod";
-
-import type { Tag } from "@/types/tag";
-
-import { TagSchema } from "@/types/tag";
-
-export const MemoStructSchema = z.object({
-    id: z.number(),
-    content: z.string(),
-    created_at: z.string(),
-    updated_at: z.string(),
-    tags: TagSchema.array()
-}) satisfies z.ZodType<MemoStruct>;
-
-type MemoStruct = {
-    id: number;
-    content: string;
-    created_at: string;
-    updated_at: string;
-    tags: Tag[];
-};
-
-export function isMemoStruct(obj: unknown): obj is MemoStruct {
-    return MemoStructSchema.safeParse(obj).success;
-}
-
-const MemoSchema = z.object({
-    id: z.number(),
-    text: z.string(),
-    created_at: z.date(),
-    updated_at: z.date(),
-    tags: z.string().array()
-}) satisfies z.ZodType<Memo>;
+import type { Memo as MemoArg } from "../bindings";
 
 export class Memo {
     id: number;
@@ -39,14 +7,11 @@ export class Memo {
     updated_at: Date;
     tags: string[] = [];
 
-    constructor(memo: MemoStruct) {
+    constructor(memo: MemoArg) {
         this.id = memo.id;
         this.text = memo.content;
         this.created_at = new Date(memo.created_at);
         this.updated_at = new Date(memo.updated_at);
         this.tags = memo.tags.map((t) => t.content);
     }
-}
-export function isMemo(obj: unknown): obj is Memo {
-    return MemoSchema.safeParse(obj).success;
 }

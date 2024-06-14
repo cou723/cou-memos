@@ -6,7 +6,7 @@ import type { Config } from "@/types/config";
 
 import { api } from "@/lib/api";
 
-export function useConfigFile(): [Config, React.Dispatch<React.SetStateAction<Config>>] {
+export function useConfig(): [Config, React.Dispatch<React.SetStateAction<Config>>] {
     const [config, setConfig] = useState<Config>({ data_path: "", is_show_save_button: true } as Config);
     const { pushErrorNotification } = useNotification();
 
@@ -20,9 +20,9 @@ export function useConfigFile(): [Config, React.Dispatch<React.SetStateAction<Co
             setConfig(config.val);
         };
         void fetchConfig();
-    // pushErrorNotificationを含むと無限ループになるため、eslint-disable-next-lineを使用
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+        // pushErrorNotificationを含むと無限ループになるため、eslint-disable-next-lineを使用
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return [config, setConfig];
 }

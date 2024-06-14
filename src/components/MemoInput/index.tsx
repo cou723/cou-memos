@@ -1,61 +1,44 @@
 import type { FC } from "react";
-import React, { useCallback } from "react";
+import React from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Textarea } from "react-daisyui";
 
-import { useConfigFile } from "@/hooks/useConfigFile";
+import { useConfig } from "@/hooks/useConfigFile";
+import { usePostMemo } from "@/hooks/useMemo/usePostMemo";
 import { useMemoText } from "@/hooks/useMemoText";
 import { useNotification } from "@/hooks/useNotification";
-import { useSaveMemo } from "@/hooks/useSaveMemo";
 import { insertIndent } from "@/lib/editor";
 
 type Props = {
     id?: number;
 };
 
-// eslint-disable-next-line react/display-name
-export const MemoInput: FC<Props> = React.memo(({ id }) => {
-    const queryClient = useQueryClient();
+export const MemoInput: FC<Props> = ({ id }) => {
     const [text, setText] = useMemoText(id);
     const { pushErrorNotification } = useNotification();
-    const saveMemo = useSaveMemo();
-    const [config] = useConfigFile();
+    const { mutate: postMemo } = usePostMemo(id);
+    const [config] = useConfig();
 
-    const mutation = useMutation<void, Error, { text: string; id: number | undefined }>(
-        async (params) => saveMemo(params),
-        {
-            onSuccess: () => queryClient.invalidateQueries(["memos"])
-        }
-    );
-
-    const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
-        setText(event.target.value);
+    const onSave = () => {
+        postMemo(text);
+        setText("");
     };
 
-    const onSave = useCallback(async () => {
-        mutation.mutate({ text, id });
-        setText("");
-    }, [id, mutation, text, setText]);
-
-    const handleKeyDown = useCallback(
-        async (event: React.KeyboardEvent) => {
-            if (event.ctrlKey && event.key === "Enter") await onSave();
-            if (event.key === "Tab") {
-                event.preventDefault();
-                const result = insertIndent(text, setText, event);
-                if (result.err) pushErrorNotification("インサートに失敗しました");
-            }
-        },
-        [onSave, pushErrorNotification, setText, text]
-    );
+    const handleKeyDown = async (event: React.KeyboardEvent) => {
+        if (event.ctrlKey && event.key === "Enter") await onSave();
+        if (event.key === "Tab") {
+            event.preventDefault();
+            const result = insertIndent(text, setText, event);
+            if (result.err) pushErrorNotification("インサートに失敗しました");
+        }
+    };
 
     return (
         <div>
             <Textarea
                 className="block w-full leading-none h-40"
                 value={text}
-                onChange={handleChange}
+                onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
             />
             <div className="flex justify-end">
@@ -65,4 +48,4 @@ export const MemoInput: FC<Props> = React.memo(({ id }) => {
             </div>
         </div>
     );
-});
+};

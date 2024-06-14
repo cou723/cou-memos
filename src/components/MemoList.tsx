@@ -3,7 +3,7 @@ import React from "react";
 
 import { MemoView } from "./MemoView";
 
-import { useMemoList } from "@/hooks/useMemoList";
+import { useMemoList } from "@/hooks/useMemo/useMemoList";
 
 type Props = {
     searchTags: string[];
@@ -13,7 +13,7 @@ type Props = {
 };
 
 // eslint-disable-next-line react/display-name
-export const MemoList: FC<Props> = React.memo(({ searchTags, onEdit, onDelete, className }: Props) => {
+export const MemoList: FC<Props> = ({ searchTags, onEdit, onDelete, className }: Props) => {
     const { isLoading, isError, data: memos } = useMemoList(searchTags);
     if (isLoading) return <div>loading...</div>;
     if (isError) return <div>error...</div>;
@@ -28,4 +28,4 @@ export const MemoList: FC<Props> = React.memo(({ searchTags, onEdit, onDelete, c
             ))}
         </div>
     );
-});
+};

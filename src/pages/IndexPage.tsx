@@ -2,38 +2,21 @@ import type { FC } from "react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "react-daisyui";
 import { HiAdjustments } from "react-icons/hi";
 
 import { MemoInput } from "../components/MemoInput";
 import { MemoList } from "../components/MemoList";
-import { MemoDB } from "../lib/memo";
 
 import { MemoSearchBox } from "@/components/MemoSearchBox";
-import { useNotification } from "@/hooks/useNotification";
+import { useDeleteMemo } from "@/hooks/useMemo/useDeleteMemo";
 
-export const IndexPage: FC = React.memo(function IndexPageUnMemo() {
+export const IndexPage: FC = () => {
     const [id, setId] = useState<number | undefined>(undefined);
     const [searchTags, setSearchQuery] = useState<string[]>([]);
-    const queryClient = useQueryClient();
-    const { pushErrorNotification } = useNotification();
+    const { deleteMemo } = useDeleteMemo();
 
     const nav = useNavigate();
-
-    const mutation = useMutation<void, Error, { id: number }>(
-        async ({ id }: { id: number }) => {
-            const result = await MemoDB.delete(id);
-            if (result.err) pushErrorNotification("メモの削除に失敗しました");
-        },
-        {
-            onSuccess: async () => {
-                await queryClient.invalidateQueries(["memos"]);
-            }
-        }
-    );
-
-    const handleDelete = (delete_id: number) => mutation.mutate({ id: delete_id });
 
     return (
         <div className="w-3/4 m-auto mt-10">
@@ -47,7 +30,7 @@ export const IndexPage: FC = React.memo(function IndexPageUnMemo() {
             </Button>
             <MemoInput id={id} />
             <MemoSearchBox searchTags={searchTags} setSearchTags={setSearchQuery} className="mt-3" />
-            <MemoList searchTags={searchTags} className="mt-3" onEdit={(id) => setId(id)} onDelete={handleDelete} />
+            <MemoList searchTags={searchTags} className="mt-3" onEdit={(id) => setId(id)} onDelete={deleteMemo} />
         </div>
     );
-});
+};

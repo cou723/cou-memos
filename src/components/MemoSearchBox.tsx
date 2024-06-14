@@ -10,7 +10,7 @@ type Props = {
 };
 
 // eslint-disable-next-line react/display-name
-export const MemoSearchBox: FC<Props> = React.memo(({ searchTags, setSearchTags, className }: Props) => {
+export const MemoSearchBox: FC<Props> = ({ searchTags, setSearchTags, className }: Props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const tags = e.target.value;
         if (tags == "") setSearchTags([]);
@@ -18,4 +18,4 @@ export const MemoSearchBox: FC<Props> = React.memo(({ searchTags, setSearchTags,
     };
 
     return <Input className={`w-full ${className}`} value={searchTags.join(" ")} onChange={handleChange} />;
-});
+};

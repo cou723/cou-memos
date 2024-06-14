@@ -65,7 +65,13 @@ const syntaxHighlightedCode: CodeComponent = ({ className, children, ...props })
     const isInlineCode = Array.isArray(children) && !(children[0]! as string).includes("\n");
     if (!isInlineCode) {
         return (
-            <SyntaxHighlighter {...props} language={match ? match[1] : ""} style={atomDark} PreTag="div">
+            <SyntaxHighlighter
+                {...props}
+                inline={props.inline ? props.inline.toString() : ""}
+                language={match ? match[1] : ""}
+                style={atomDark}
+                PreTag="div"
+            >
                 {String(children).replace(/\n$/, "")}
             </SyntaxHighlighter>
         );

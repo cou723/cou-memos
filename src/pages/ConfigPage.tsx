@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input } from "react-daisyui";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 
-import { useConfigFile } from "@/hooks/useConfigFile";
+import { useConfig } from "@/hooks/useConfigFile";
 import { api } from "@/lib/api";
 
 // eslint-disable-next-line react/display-name
-export const ConfigPage: FC = React.memo(() => {
-    const [config, setConfig] = useConfigFile();
+export const ConfigPage: FC = () => {
+    const [config, setConfig] = useConfig();
     const nav = useNavigate();
 
     const handleDbPathChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,4 +54,4 @@ export const ConfigPage: FC = React.memo(() => {
             </div>
         </>
     );
-});
+};
