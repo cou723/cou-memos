@@ -4,7 +4,6 @@ import type { NotificationType } from "@/providers/NotificationProvider";
 
 import { NotificationStack } from "@/providers/NotificationProvider";
 
-
 export const useNotification = () => {
     const { dispatch } = useContext(NotificationStack);
     return {
@@ -12,10 +11,13 @@ export const useNotification = () => {
             dispatch({ type: "push", notification: { type, message } });
         },
         pushErrorNotification: (message: string) => {
-            dispatch({ type: "push", notification: { type: "error", message } });
+            dispatch({
+                type: "push",
+                notification: { type: "error", message },
+            });
         },
         closeNotification: (index: number) => {
             dispatch({ type: "close", index });
-        }
+        },
     };
 };

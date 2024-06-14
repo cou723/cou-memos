@@ -1,5 +1,4 @@
 import type { FC } from "react";
-import React from "react";
 
 import { MemoView } from "./MemoView";
 
@@ -13,7 +12,12 @@ type Props = {
 };
 
 // eslint-disable-next-line react/display-name
-export const MemoList: FC<Props> = ({ searchTags, onEdit, onDelete, className }: Props) => {
+export const MemoList: FC<Props> = ({
+    searchTags,
+    onEdit,
+    onDelete,
+    className,
+}: Props) => {
     const { isLoading, isError, data: memos } = useMemoList(searchTags);
     if (isLoading) return <div>loading...</div>;
     if (isError) return <div>error...</div>;

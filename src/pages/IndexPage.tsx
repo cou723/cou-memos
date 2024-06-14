@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "react-daisyui";
@@ -29,8 +29,17 @@ export const IndexPage: FC = () => {
                 <HiAdjustments className="text-xl" />
             </Button>
             <MemoInput id={id} />
-            <MemoSearchBox searchTags={searchTags} setSearchTags={setSearchQuery} className="mt-3" />
-            <MemoList searchTags={searchTags} className="mt-3" onEdit={(id) => setId(id)} onDelete={deleteMemo} />
+            <MemoSearchBox
+                searchTags={searchTags}
+                setSearchTags={setSearchQuery}
+                className="mt-3"
+            />
+            <MemoList
+                searchTags={searchTags}
+                className="mt-3"
+                onEdit={(id) => setId(id)}
+                onDelete={deleteMemo}
+            />
         </div>
     );
 };

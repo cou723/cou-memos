@@ -13,27 +13,27 @@ export function parseTagAndParagraph(text: string): string[] {
 
     const tagStartChar = "#";
     for (const c of target) {
-        if (readingState == "paragraph") {
-            if (c == tagStartChar) {
+        if (readingState === "paragraph") {
+            if (c === tagStartChar) {
                 if (buf.length > 0) commitBuffer();
                 readingState = "tag";
                 buf.push(c);
                 continue;
-            } else buf.push(c);
+            }
+            buf.push(c);
 
             continue;
         }
 
-        if (readingState == "tag") {
-            if (c == "\n" || c == " ") {
+        if (readingState === "tag") {
+            if (c === "\n" || c === " ") {
                 commitBuffer();
                 readingState = "paragraph";
-                if (c == "\n") buf.push(c);
+                if (c === "\n") buf.push(c);
                 continue;
             }
             buf.push(c);
         }
-        continue;
     }
 
     if (buf.length > 0) commitBuffer();

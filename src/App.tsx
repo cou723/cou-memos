@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { Alert, Button, Toast } from "react-daisyui";
 
@@ -17,11 +17,19 @@ const App: FC = () => {
         <div>
             <Toast vertical="bottom" horizontal="end">
                 {state.map((notification, index) => (
-                    <Alert status={notification.type} key={index}>
-                        <div className={"w-full flex-row justify-between gap-2"}>
+                    <Alert
+                        status={notification.type}
+                        key={notification.message}
+                    >
+                        <div
+                            className={"w-full flex-row justify-between gap-2"}
+                        >
                             <h3>{notification.message}</h3>
                         </div>
-                        <Button color="ghost" onClick={() => closeNotification(index)}>
+                        <Button
+                            color="ghost"
+                            onClick={() => closeNotification(index)}
+                        >
                             X
                         </Button>
                     </Alert>

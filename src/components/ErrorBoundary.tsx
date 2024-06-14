@@ -11,7 +11,7 @@ interface State {
 
 class ErrorBoundary extends Component<Props, State> {
     public state: State = {
-        hasError: false
+        hasError: false,
     };
 
     public static getDerivedStateFromError(_: Error): State {
@@ -24,7 +24,11 @@ class ErrorBoundary extends Component<Props, State> {
 
     public render() {
         if (this.state.hasError) {
-            return <h1>致命的なエラーが発生しました。アプリを終了してください。</h1>;
+            return (
+                <h1>
+                    致命的なエラーが発生しました。アプリを終了してください。
+                </h1>
+            );
         }
 
         return this.props.children;

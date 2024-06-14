@@ -2,12 +2,11 @@ import { MarkdownView } from ".";
 
 import type { Meta, StoryObj } from "@storybook/react";
 
-
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
     title: "MarkdownView",
     component: MarkdownView,
-    tags: ["autodocs"]
+    tags: ["autodocs"],
 } satisfies Meta<typeof MarkdownView>;
 
 export default meta;
@@ -22,16 +21,16 @@ export const List: Story = {
     args: {
         text: `- list1
 - list2
-- list3`
-    }
+- list3`,
+    },
 };
 
 export const Paragraph: Story = {
-    args: { text: `#tag1 text` }
+    args: { text: "#tag1 text" },
 };
 
 export const InlineCode: Story = {
-    args: { text: `\`Hello\`` }
+    args: { text: "`Hello`" },
 };
 
 export const All: Story = {
@@ -53,12 +52,12 @@ console.log();
 \`\`\`
 normal code
 \`\`\`
-`
-    }
+`,
+    },
 };
 
 export const ConsecutiveElements: Story = {
     args: {
-        text: `p1 \`code\` p2`
-    }
+        text: "p1 `code` p2",
+    },
 };

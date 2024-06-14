@@ -2,7 +2,7 @@
 // @vitest-environment jsdom
 
 import { cleanup, render } from "@testing-library/react";
-import { describe, afterEach, it, expect } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 
 import { MarkdownView } from "@/components/MemoView/MarkdownView";
 import {
@@ -13,7 +13,7 @@ import {
     H3,
     InlineCode,
     List,
-    Paragraph
+    Paragraph,
 } from "@/components/MemoView/MarkdownView/MarkdownView.stories";
 
 describe("MarkdownView single element", () => {
@@ -43,7 +43,9 @@ describe("MarkdownView single element", () => {
     });
 
     it("p", async () => {
-        const { asFragment, getByText } = render(<MarkdownView {...Paragraph.args} />);
+        const { asFragment, getByText } = render(
+            <MarkdownView {...Paragraph.args} />,
+        );
         expect(asFragment()).toMatchSnapshot();
 
         expect(getByText("#tag1").tagName).equal("DIV");
@@ -51,7 +53,9 @@ describe("MarkdownView single element", () => {
     });
 
     it("list", async () => {
-        const { asFragment, getByText } = render(<MarkdownView {...List.args} />);
+        const { asFragment, getByText } = render(
+            <MarkdownView {...List.args} />,
+        );
         expect(asFragment()).toMatchSnapshot();
 
         expect(getByText("list1").tagName).equal("LI");
@@ -60,7 +64,9 @@ describe("MarkdownView single element", () => {
     });
 
     it("inline code", async () => {
-        const { asFragment, getByText } = render(<MarkdownView {...InlineCode.args} />);
+        const { asFragment, getByText } = render(
+            <MarkdownView {...InlineCode.args} />,
+        );
         expect(asFragment()).toMatchSnapshot();
         expect(getByText("Hello").tagName).equal("CODE");
     });
@@ -75,7 +81,7 @@ int main(){
 }
 
 \`\`\``}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
         expect(getByText("printf").tagName).equal("SPAN");
@@ -87,7 +93,9 @@ describe("MarkdownView multiple elements", () => {
         cleanup();
     });
     it("h1, h2, h3, p, list, inline code, code", async () => {
-        const { asFragment, getByText, container } = render(<MarkdownView {...All.args} />);
+        const { asFragment, getByText, container } = render(
+            <MarkdownView {...All.args} />,
+        );
 
         expect(asFragment()).toMatchSnapshot();
 
@@ -110,7 +118,9 @@ describe("MarkdownView multiple elements", () => {
     });
 
     it("p, inline code, p", async () => {
-        const { asFragment, getByText } = render(<MarkdownView {...ConsecutiveElements.args} />);
+        const { asFragment, getByText } = render(
+            <MarkdownView {...ConsecutiveElements.args} />,
+        );
 
         expect(asFragment()).toMatchSnapshot();
 

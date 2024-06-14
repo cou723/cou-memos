@@ -2,12 +2,11 @@ import { MemoView } from ".";
 
 import type { Meta, StoryObj } from "@storybook/react";
 
-
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
     title: "Example/MemoView",
     component: MemoView,
-    tags: ["autodocs"]
+    tags: ["autodocs"],
 } satisfies Meta<typeof MemoView>;
 
 export default meta;
@@ -48,11 +47,11 @@ return
 return
 `,
 
-            created_at: new Date(),
-            updated_at: new Date(),
-            tags: ["tag1"]
-        }
-    }
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            tags: ["tag1"],
+        },
+    },
 };
 
 export const OneLine: Story = {
@@ -63,9 +62,9 @@ export const OneLine: Story = {
 最近は\`Next.js\`の\`AppRouter\`を勉強しています
 `,
 
-            created_at: new Date(),
-            updated_at: new Date(),
-            tags: ["tag1"]
-        }
-    }
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            tags: ["tag1"],
+        },
+    },
 };

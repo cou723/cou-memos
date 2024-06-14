@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React from "react";
+import type React from "react";
 
 import { Button, Textarea } from "react-daisyui";
 
@@ -42,7 +42,11 @@ export const MemoInput: FC<Props> = ({ id }) => {
                 onKeyDown={handleKeyDown}
             />
             <div className="flex justify-end">
-                <Button size="sm" className={`mt-2 ${config.is_show_save_button ? "" : "hidden"}`} onClick={onSave}>
+                <Button
+                    size="sm"
+                    className={`mt-2 ${config.is_show_save_button ? "" : "hidden"}`}
+                    onClick={onSave}
+                >
                     保存
                 </Button>
             </div>

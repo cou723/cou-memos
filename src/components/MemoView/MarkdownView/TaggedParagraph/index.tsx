@@ -22,7 +22,17 @@ export const TaggedParagraph: FC<Props> = React.memo(({ text }) => {
             elements.push(<Tag text={content.text} key={index} />);
         } else {
             elements.push(
-                <>{(content.before != null ? content.before == "\n" ? <br /> : content.before : "") + content.text}</>
+                <>
+                    {(content.before != null ? (
+                        content.before === "\n" ? (
+                            <br />
+                        ) : (
+                            content.before
+                        )
+                    ) : (
+                        ""
+                    )) + content.text}
+                </>,
             );
         }
     }

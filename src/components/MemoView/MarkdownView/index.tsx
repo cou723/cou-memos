@@ -22,7 +22,7 @@ export const MarkdownView: FC<Props> = React.memo(({ text }) => {
         <ReactMarkdown
             components={{
                 code: syntaxHighlightedCode,
-                p: tagOrParagraph
+                p: tagOrParagraph,
             }}
             className="memo"
         >
@@ -35,8 +35,8 @@ export const MarkdownView: FC<Props> = React.memo(({ text }) => {
 function tagOrParagraph({ children }: { children: React.ReactNode }) {
     const elements: ReactElement[] = [];
     if (children == null) return null;
-    if (!(children instanceof Array)) return <>{children}</>;
-    if (children.length == 0) return null;
+    if (!Array.isArray(children)) return <>{children}</>;
+    if (children.length === 0) return null;
     console.log(children);
 
     for (const [i, child] of children.entries()) {
@@ -44,9 +44,9 @@ function tagOrParagraph({ children }: { children: React.ReactNode }) {
             const parsed = parseTagAndParagraph(child);
             for (const [j, content] of parsed.entries()) {
                 if (content.startsWith("#")) {
-                    elements.push(<Tag text={content} key={i + "-" + j} />);
+                    elements.push(<Tag text={content} key={`${i}-${j}`} />);
                 } else {
-                    elements.push(<p key={i + "-" + j}>{content}</p>);
+                    elements.push(<p key={`${i}-${j}`}>{content}</p>);
                 }
             }
         } else {
@@ -60,9 +60,15 @@ function tagOrParagraph({ children }: { children: React.ReactNode }) {
 export type Character = string;
 
 // コードブロックの場合既存の言語の場合はSyntaxHighlighterを使う
-const syntaxHighlightedCode: CodeComponent = ({ className, children, ...props }) => {
+const syntaxHighlightedCode: CodeComponent = ({
+    className,
+    children,
+    ...props
+}) => {
     const match = /language-(\w+)/.exec(className || "");
-    const isInlineCode = Array.isArray(children) && !(children[0]! as string).includes("\n");
+    const isInlineCode =
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        Array.isArray(children) && !(children[0]! as string).includes("\n");
     if (!isInlineCode) {
         return (
             <SyntaxHighlighter
@@ -76,11 +82,10 @@ const syntaxHighlightedCode: CodeComponent = ({ className, children, ...props })
             </SyntaxHighlighter>
         );
         // 知らないコードブロックとインラインコードの場合はcodeタグを使う
-    } else {
-        return (
-            <code {...props} className={isInlineCode ? `inline-code` : ""}>
-                {children}
-            </code>
-        );
     }
+    return (
+        <code {...props} className={isInlineCode ? "inline-code" : ""}>
+            {children}
+        </code>
+    );
 };

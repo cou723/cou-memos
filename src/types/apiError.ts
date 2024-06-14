@@ -11,7 +11,7 @@ const apiErrorList = [
     "ConfigReadFailed",
     "ConfigInvalidKey",
     "UnknownError",
-    "CreateDirectoryFailed"
+    "CreateDirectoryFailed",
 ];
 
 export type ApiError = (typeof apiErrorList)[number];
