@@ -3,11 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import type { Memo } from "@/types/memo";
 import type { SearchQuery } from "@/types/searchQuery";
 
-import { useNotification } from "@/hooks/useNotification";
 import { getMemoList } from "@/lib/memoDb";
+import toast from "react-hot-toast";
 
 export function useMemoList(searchTags: SearchQuery) {
-    const { pushErrorNotification } = useNotification();
     return useQuery<Memo[], Error>({
         queryKey: ["memo", ...searchTags],
         queryFn: async () => await getMemoList(searchTags),
@@ -17,7 +16,7 @@ export function useMemoList(searchTags: SearchQuery) {
                 message += "データベースファイルへのアクセスに失敗しました。";
             }
             message += `(${error.message})`;
-            pushErrorNotification(message);
+            toast.error(message);
         },
     });
 }

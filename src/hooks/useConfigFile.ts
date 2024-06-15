@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
-
-import { useNotification } from "./useNotification";
+import { useState } from "react";
 
 import { getConfig } from "@/bindings";
 import type { Config } from "@/types/config";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export function useConfig(): [
     Config,
     React.Dispatch<React.SetStateAction<Config>>,
 ] {
-    const { pushErrorNotification } = useNotification();
     const { data } = useQuery<Config, Error>(
         ["config"],
         async () => {
@@ -18,9 +16,7 @@ export function useConfig(): [
         },
         {
             onError: (error: Error) =>
-                pushErrorNotification(
-                    `設定ファイルの取得に失敗しました${error.message}`,
-                ),
+                toast.error(`設定ファイルの取得に失敗しました${error.message}`),
         },
     );
     const [config, setConfig] = useState<Config>(

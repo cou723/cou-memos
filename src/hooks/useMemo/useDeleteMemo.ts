@@ -1,12 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { useNotification } from "@/hooks/useNotification";
 import * as memoDb from "@/lib/memoDb";
 import { queryClient } from "@/lib/queryClient";
+import toast from "react-hot-toast";
 
 export function useDeleteMemo() {
-    const { pushErrorNotification } = useNotification();
-
     const mutation = useMutation<void, Error, { id: number }>(
         async ({ id }: { id: number }) => {
             await memoDb.deleteMemo(id);
@@ -15,7 +13,7 @@ export function useDeleteMemo() {
             onSettled: async () => {
                 await queryClient.invalidateQueries(["memo"]);
             },
-            onError: () => pushErrorNotification("メモの削除に失敗しました"),
+            onError: () => toast.error("メモの削除に失敗しました"),
         },
     );
 

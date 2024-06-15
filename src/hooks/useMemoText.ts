@@ -4,13 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 
 import type { Memo } from "@/types/memo";
 
-import { useNotification } from "@/hooks/useNotification";
 import * as memoDb from "@/lib/memoDb";
+import toast from "react-hot-toast";
 
 export function useMemoText(
     id?: number,
 ): [string, React.Dispatch<React.SetStateAction<string>>] {
-    const { pushErrorNotification } = useNotification();
     const queryResult = useQuery<Memo, Error>(
         ["memo", id?.toString()],
         async () => {
@@ -20,7 +19,7 @@ export function useMemoText(
         {
             enabled: !!id,
             onError: (error: Error) =>
-                pushErrorNotification(`メモの取得に失しました${error.message}`),
+                toast.error(`メモの取得に失しました${error.message}`),
         },
     );
 

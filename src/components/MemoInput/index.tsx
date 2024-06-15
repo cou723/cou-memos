@@ -6,8 +6,8 @@ import { Button, Textarea } from "react-daisyui";
 import { useConfig } from "@/hooks/useConfigFile";
 import { usePostMemo } from "@/hooks/useMemo/usePostMemo";
 import { useMemoText } from "@/hooks/useMemoText";
-import { useNotification } from "@/hooks/useNotification";
 import { insertIndent } from "@/lib/editor";
+import toast from "react-hot-toast";
 
 type Props = {
     id?: number;
@@ -15,9 +15,7 @@ type Props = {
 };
 
 export const MemoInput: FC<Props> = ({ id, handleSave }) => {
-    console.log(id);
     const [text, setText] = useMemoText(id);
-    const { pushErrorNotification } = useNotification();
     const { mutate: postMemo } = usePostMemo(id, handleSave);
     const [config] = useConfig();
 
@@ -31,7 +29,7 @@ export const MemoInput: FC<Props> = ({ id, handleSave }) => {
         if (event.key === "Tab") {
             event.preventDefault();
             const result = insertIndent(text, setText, event);
-            if (result.err) pushErrorNotification("インサートに失敗しました");
+            if (result.isErr()) toast.error("インサートに失敗しました");
         }
     };
 
