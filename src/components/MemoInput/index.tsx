@@ -11,17 +11,19 @@ import { insertIndent } from "@/lib/editor";
 
 type Props = {
     id?: number;
+    handleSave: () => void;
 };
 
-export const MemoInput: FC<Props> = ({ id }) => {
+export const MemoInput: FC<Props> = ({ id, handleSave }) => {
+    console.log(id);
     const [text, setText] = useMemoText(id);
     const { pushErrorNotification } = useNotification();
-    const { mutate: postMemo } = usePostMemo(id);
+    const { mutate: postMemo } = usePostMemo(id, handleSave);
     const [config] = useConfig();
 
     const onSave = () => {
+        console.log("onSave", text, id);
         postMemo(text);
-        setText("");
     };
 
     const handleKeyDown = async (event: React.KeyboardEvent) => {

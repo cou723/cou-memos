@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { useNotification } from "@/hooks/useNotification";
-import * as memoDb from "@/lib/memodb";
+import * as memoDb from "@/lib/memoDb";
 import { queryClient } from "@/lib/queryClient";
 
 export function useDeleteMemo() {
@@ -9,13 +9,13 @@ export function useDeleteMemo() {
 
     const mutation = useMutation<void, Error, { id: number }>(
         async ({ id }: { id: number }) => {
-            const result = await memoDb.deleteApi(id);
-            if (result.err) pushErrorNotification("メモの削除に失敗しました");
+            await memoDb.deleteMemo(id);
         },
         {
-            onSuccess: async () => {
-                await queryClient.invalidateQueries(["memos"]);
+            onSettled: async () => {
+                await queryClient.invalidateQueries(["memo"]);
             },
+            onError: () => pushErrorNotification("メモの削除に失敗しました"),
         },
     );
 

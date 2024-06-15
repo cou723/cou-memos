@@ -3,10 +3,7 @@
 
 declare global {
     interface Window {
-        __TAURI_INVOKE__<T>(
-            cmd: string,
-            args?: Record<string, unknown>,
-        ): Promise<T>;
+        __TAURI_INVOKE__<T>(cmd: string, args?: Record<string, unknown>): Promise<T>;
     }
 }
 
@@ -14,47 +11,41 @@ declare global {
 const invoke = () => window.__TAURI_INVOKE__;
 
 export function getFileText(id: number) {
-    return invoke()<string>("get_file_text", { id });
+    return invoke()<string>("get_file_text", { id })
 }
 
 export function editMemo(text: string, id: number) {
-    return invoke()<null>("edit_memo", { text, id });
+    return invoke()<null>("edit_memo", { text,id })
 }
 
 export function deleteMemo(id: number) {
-    return invoke()<null>("delete_memo", { id });
+    return invoke()<null>("delete_memo", { id })
 }
 
 export function getMemo(id: number) {
-    return invoke()<Memo>("get_memo", { id });
+    return invoke()<Memo>("get_memo", { id })
 }
 
 export function getMemoList(searchTags: string[]) {
-    return invoke()<Memo[]>("get_memo_list", { searchTags });
+    return invoke()<Memo[]>("get_memo_list", { searchTags })
 }
 
 export function addMemo(text: string) {
-    return invoke()<null>("add_memo", { text });
+    return invoke()<null>("add_memo", { text })
 }
 
 export function getConfig() {
-    return invoke()<Config>("get_config");
+    return invoke()<Config>("get_config")
 }
 
 export function setConfig(key: string, value: string) {
-    return invoke()<null>("set_config", { key, value });
+    return invoke()<null>("set_config", { key,value })
 }
 
 export function saveConfig(config: Config) {
-    return invoke()<null>("save_config", { config });
+    return invoke()<null>("save_config", { config })
 }
 
-export type Tag = { id: number; content: string; created_at: string };
-export type Memo = {
-    id: number;
-    content: string;
-    updated_at: string;
-    created_at: string;
-    tags: Tag[];
-};
-export type Config = { data_path: string; is_show_save_button: boolean };
+export type Tag = { id: number; content: string; created_at: string }
+export type Memo = { id: number; content: string; updated_at: string; created_at: string; tags: Tag[] }
+export type Config = { data_path: string; is_show_save_button: boolean }

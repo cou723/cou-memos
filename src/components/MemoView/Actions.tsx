@@ -12,7 +12,6 @@ type Props = {
     handleEdit: () => void;
 };
 
-// eslint-disable-next-line react/display-name
 export const Actions: FC<Props> = React.memo(
     ({ memo, handleDelete, handleEdit }: Props) => {
         return (

@@ -13,10 +13,11 @@ import type { ReactElement } from "react-markdown/lib/react-markdown";
 import { Tag } from "@/components/MemoView/MarkdownView/Text/Tag";
 
 type Props = { text: string };
+
 /*
 いろいろ試した感じ、unifiedなどを使ってがっつり変換するのはunifiedのエコシステム周りがまだかなり型安全ではない状態なので、あくまでReactMarkdownのcomponents propsをつかってできる範囲でやるのがよさそう。
  */
-// eslint-disable-next-line react/display-name
+
 export const MarkdownView: FC<Props> = React.memo(({ text }) => {
     return (
         <ReactMarkdown
@@ -37,7 +38,6 @@ function tagOrParagraph({ children }: { children: React.ReactNode }) {
     if (children == null) return null;
     if (!Array.isArray(children)) return <>{children}</>;
     if (children.length === 0) return null;
-    console.log(children);
 
     for (const [i, child] of children.entries()) {
         if (typeof child === "string") {
@@ -73,7 +73,7 @@ const syntaxHighlightedCode: CodeComponent = ({
         return (
             <SyntaxHighlighter
                 {...props}
-                inline={props.inline ? props.inline.toString() : ""}
+                inline={props.inline ? props.inline.toString() : undefined}
                 language={match ? match[1] : ""}
                 style={atomDark}
                 PreTag="div"

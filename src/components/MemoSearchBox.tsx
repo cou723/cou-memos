@@ -9,7 +9,6 @@ type Props = {
     className: string;
 };
 
-// eslint-disable-next-line react/display-name
 export const MemoSearchBox: FC<Props> = ({
     searchTags,
     setSearchTags,

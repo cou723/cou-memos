@@ -28,7 +28,7 @@ export const IndexPage: FC = () => {
             >
                 <HiAdjustments className="text-xl" />
             </Button>
-            <MemoInput id={id} />
+            <MemoInput id={id} handleSave={() => setId(undefined)} />
             <MemoSearchBox
                 searchTags={searchTags}
                 setSearchTags={setSearchQuery}

@@ -6,7 +6,7 @@ import { Button, Checkbox, Form, Input } from "react-daisyui";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 
 import { useConfig } from "@/hooks/useConfigFile";
-import * as api from "@/lib/api";
+import { saveConfig } from "@/bindings";
 
 // eslint-disable-next-line react/display-name
 export const ConfigPage: FC = () => {
@@ -60,7 +60,7 @@ export const ConfigPage: FC = () => {
 
                 <Button
                     className="mt-5 w-full"
-                    onClick={() => api.saveConfigWrapper(config)}
+                    onClick={() => saveConfig(config)}
                 >
                     保存
                 </Button>

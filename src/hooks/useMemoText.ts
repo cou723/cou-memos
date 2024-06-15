@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
 import type { Memo } from "@/types/memo";
 
 import { useNotification } from "@/hooks/useNotification";
-import * as memoDb from "@/lib/memodb";
+import * as memoDb from "@/lib/memoDb";
 
 export function useMemoText(
     id?: number,
@@ -15,7 +15,7 @@ export function useMemoText(
         ["memo", id?.toString()],
         async () => {
             if (!id) throw new Error("Memo ID is undefined");
-            return (await memoDb.get(id)).unwrap();
+            return await memoDb.getMemo(id);
         },
         {
             enabled: !!id,
@@ -24,9 +24,11 @@ export function useMemoText(
         },
     );
 
-    const [text, setText] = useState(
-        queryResult?.data ? queryResult.data.text : "",
-    );
+    const [text, setText] = useState("");
+
+    useEffect(() => {
+        setText(queryResult?.data ? queryResult.data.text : "");
+    }, [queryResult.data]);
 
     return [text, setText];
 }
